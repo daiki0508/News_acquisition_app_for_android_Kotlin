@@ -1,0 +1,2 @@
+rootProject.name = "NewsApp_Kotlin"
+include ':app'

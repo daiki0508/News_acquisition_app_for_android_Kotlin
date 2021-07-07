@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="#dfe"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_conditions_text"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_conditions2" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_conditions2_list"
+            android:entries="@array/conditions_lang"
+            android:layout_marginStart="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:text="@string/search_conditions3" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:id="@+id/search_conditions3_edit"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/executeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/execute_text" />
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar"
+        android:layout_marginTop="10dp"
+        android:indeterminate="false"
+        style="@android:style/Widget.ProgressBar.Horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/result_text"
+        android:layout_marginTop="10dp"
+        android:textSize="25sp" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/result_news_text2"
+        android:layout_marginTop="5dp" />
+</LinearLayout>

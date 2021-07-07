@@ -1,0 +1,93 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">NewsApp_Kotlin</string>
+    <string name="search_conditions_text">Please enter search conditions</string>
+    <string name="search_conditions1">Area</string>
+    <string name="search_conditions2">Language</string>
+    <string-array name="conditions_lang">
+        <item>English</item>
+        <item>Japanese</item>
+        <item>Chinese</item>
+        <item>Korean</item>
+        <item>Russian</item>
+    </string-array>
+    <string name="search_conditions3">Search words</string>
+    <string name="execute_text">Execute Search</string>
+    <string name="result_text">News List</string>
+    <string name="dialog_title">Select</string>
+    <string-array name="select_dialog">
+        <item>Open in browser</item>
+        <item>Share on Twitter</item>
+    </string-array>
+    <string name="twitter_describe">If you have a sentence to tweet with the article, please enter it.</string>
+    <string name="tweet_btn">Tweet</string>
+    <string name="no_tweet_app">Twitter official app not found</string>
+    <string name="tweet_app_install">Install</string>
+    <string name="playStore_url" translatable="false" tools:ignore="ExtraTranslation">http://play.google.com/store/apps/details?id=com.twitter.android</string>
+
+    <string name="NewsScreen">News</string>
+    <string name="WeatherScreen">Weather</string>
+    <string name="LicenseScreen">Licence</string>
+    <string name="weather_text_introduction">You can get the weather information.</string>
+    <string-array name="prefectures">
+        <item>Hokkaido</item>
+        <item>Aomori</item>
+        <item>Iwate</item>
+        <item>Miyagi</item>
+        <item>Akita</item>
+        <item>Yamagata</item>
+        <item>Fukushima</item>
+        <item>Ibaraki</item>
+        <item>Tochigi</item>
+        <item>Gunma</item>
+        <item>Saitama</item>
+        <item>Chiba</item>
+        <item>Tokyo</item>
+        <item>Kanagawa</item>
+        <item>Niigata</item>
+        <item>Toyama</item>
+        <item>Ishikawa</item>
+        <item>Fukui</item>
+        <item>Yamanashi</item>
+        <item>Nagano</item>
+        <item>Gifu</item>
+        <item>Shizuoka</item>
+        <item>Aichi</item>
+        <item>Mie</item>
+        <item>Shiga</item>
+        <item>Kyoto</item>
+        <item>Osaka</item>
+        <item>Hyogo</item>
+        <item>Nara</item>
+        <item>Wakayama</item>
+        <item>Tottori</item>
+        <item>Shimane</item>
+        <item>Okayama</item>
+        <item>Hiroshima</item>
+        <item>Yamaguchi</item>
+        <item>Tokushima</item>
+        <item>Kagawa</item>
+        <item>Ehime</item>
+        <item>Kochi</item>
+        <item>Fukuoka</item>
+        <item>Saga</item>
+        <item>Nagasaki</item>
+        <item>Kumamoto</item>
+        <item>Oita</item>
+        <item>Miyazaki</item>
+        <item>Kagoshima</item>
+        <item>Okinawa</item>
+    </string-array>
+    <string name="choose_language">Language</string>
+    <string-array name="use_language">
+        <item>Japanese</item>
+        <item>English</item>
+        <item>Korea</item>
+        <item>Russia</item>
+        <item>Chinese</item>
+    </string-array>
+    <string name="weather_information">Weather information</string>
+    <string name="weather_weather">Weather</string>
+    <string name="max_temperature">Max：</string>
+    <string name="min_temperature">Min：</string>
+    <string name="today_min">UnKnown</string>
+</resources>
