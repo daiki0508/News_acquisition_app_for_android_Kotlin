@@ -8,6 +8,7 @@ import android.widget.SimpleAdapter
 import android.widget.Toast
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.SearchService
+import com.websarva.wings.android.newsapp_kotlin.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
 import com.websarva.wings.android.newsapp_kotlin.model.Value
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,11 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WebSearchViewModel by viewModel()
-    private val retrofit = Retrofit.Builder().apply {
+
+    private val retrofitSearch = Retrofit.Builder().apply {
         baseUrl("https://daiki0508-sakura-vps-server.cf/")
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
-    private val service = retrofit.create(SearchService::class.java)
+    private val serviceSearch = retrofitSearch.create(SearchService::class.java)
+
     private val from = arrayOf("title", "url")
     private val to = intArrayOf(android.R.id.text1, android.R.id.text2)
 
@@ -39,11 +42,9 @@ class MainActivity : AppCompatActivity() {
             val value = viewModel.value().value!!
             if (!value.isNullOrEmpty()){
                 val resultList: MutableList<MutableMap<String, String>> = mutableListOf()
-                Log.d("test", "called!!")
-                var result: MutableMap<String,String>
+                var result: MutableMap<String, String>
                 for (i in 0..9){
-                    
-                    result = mutableMapOf("title" to value[i].title, "url" to value[i].url)
+                    result = mutableMapOf("title" to it[i].title, "url" to it[i].url)
                     resultList.add(result)
                 }
 
@@ -66,8 +67,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 Toast.makeText(this, show, Toast.LENGTH_SHORT).show()
             }else{
-                val get = service.getRawRequestForSearch(viewModel.word().value!!)
-                viewModel.receiveSearchDataGet(get)
+                val get = serviceSearch.getRawRequestForSearch(viewModel.word().value!!)
+                viewModel.receiveSearchDataGet(get, outputLang)
             }
         }
     }

@@ -5,6 +5,6 @@ data class Search(
 )
 
 data class Value(
-    val title: String,
-    val url: String
+    var title: String,
+    var url: String
 )
