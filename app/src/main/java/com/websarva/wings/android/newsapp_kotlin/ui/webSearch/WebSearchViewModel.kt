@@ -35,41 +35,15 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    fun receiveSearchDataGet(get: Call<Search>, outputLang: String){
+    fun receiveSearchDataGet(get: Call<Search>, outputLang: String) {
         viewModelScope.launch {
             val responseBody = searchDataBackGroundRunner(get)
             if (responseBody.isSuccessful) {
                 responseBody.body()?.let {
                     //_value.value = it.value.toMutableList()
-
                     Log.d("test", "called!!")
-                    val code: String = when (outputLang) {
-                        "ニュースアプリ_Kotlin" -> "ja"
-                        "新闻应用_Kotlin" -> "zh"
-                        "뉴스 애플 리케이션_Kotlin" -> "ko"
-                        "Приложение новостей" -> "ru"
-                        else -> "en"
-                    }
-                    if (code != "en") {
-                        for (i in 0..9) {
-                            val params: Map<String, String> = hashMapOf(
-                                "text" to it.value[i].title,
-                                "source" to "en",
-                                "target" to code
-                            )
-                            val getTranslate = serviceTranslate.getRawRequestForTranslate(params)
-                                val responseBodyTranslate =
-                                    translateDataBackGroundRunner(getTranslate)
-                                responseBodyTranslate.body()?.let { it2 ->
-                                    it.value[i].title = it2.text
-                                    Log.d("test", it2.text)
-                            }
-                        }
-                    }
-                    _value.postValue(it.value.toMutableList())
+                    receiveTranslateData(it.value, outputLang)
                 }
-            } else {
-                Log.e("test", "Error!!")
             }
         }
     }
@@ -80,6 +54,37 @@ class WebSearchViewModel: ViewModel() {
             val responseBody = get.execute()
 
             responseBody
+        }
+    }
+
+    @UiThread
+    private fun receiveTranslateData(value: List<Value>, outputLang: String){
+        val code: String = when (outputLang) {
+            "ニュースアプリ_Kotlin" -> "ja"
+            "新闻应用_Kotlin" -> "zh"
+            "뉴스 애플 리케이션_Kotlin" -> "ko"
+            "Приложение новостей" -> "ru"
+            else -> "en"
+        }
+        if (code != "en") {
+            viewModelScope.launch {
+                for (i in 0..9) {
+                    val params: Map<String, String> = hashMapOf(
+                        "text" to value[i].title,
+                        "source" to "en",
+                        "target" to code
+                    )
+                    val getTranslate = serviceTranslate.getRawRequestForTranslate(params)
+                    val responseBodyTranslate =
+                        translateDataBackGroundRunner(getTranslate)
+                    responseBodyTranslate.body()?.let {
+                        value[i].title = it.text
+                    }
+                }
+                _value.postValue(value.toMutableList())
+            }
+        }else{
+            _value.postValue(value.toMutableList())
         }
     }
 
