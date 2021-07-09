@@ -1,4 +1,4 @@
-package com.websarva.wings.android.newsapp_kotlin
+package com.websarva.wings.android.newsapp_kotlin.service
 
 import com.websarva.wings.android.newsapp_kotlin.model.ShortUrl
 import retrofit2.Call

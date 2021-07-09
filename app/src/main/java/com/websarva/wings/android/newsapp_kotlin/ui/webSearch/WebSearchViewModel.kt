@@ -6,8 +6,8 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.websarva.wings.android.newsapp_kotlin.ShortUrlService
-import com.websarva.wings.android.newsapp_kotlin.TranslateService
+import com.websarva.wings.android.newsapp_kotlin.service.ShortUrlService
+import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
 import com.websarva.wings.android.newsapp_kotlin.model.*
 import kotlinx.coroutines.Dispatchers

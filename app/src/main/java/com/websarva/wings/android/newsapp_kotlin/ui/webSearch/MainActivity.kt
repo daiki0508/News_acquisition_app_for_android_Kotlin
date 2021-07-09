@@ -1,21 +1,24 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.webSearch
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SimpleAdapter
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
+import com.websarva.wings.android.newsapp_kotlin.DialogLister
 import com.websarva.wings.android.newsapp_kotlin.R
-import com.websarva.wings.android.newsapp_kotlin.SearchService
-import com.websarva.wings.android.newsapp_kotlin.TranslateService
+import com.websarva.wings.android.newsapp_kotlin.service.SearchService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
-import com.websarva.wings.android.newsapp_kotlin.model.Value
+import com.websarva.wings.android.newsapp_kotlin.ui.tweet.TweetActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WebSearchViewModel by viewModel()
 
@@ -27,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private val from = arrayOf("title", "url")
     private val to = intArrayOf(android.R.id.text1, android.R.id.text2)
+
+    private lateinit var uri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +75,25 @@ class MainActivity : AppCompatActivity() {
                 val get = serviceSearch.getRawRequestForSearch(viewModel.word().value!!)
                 viewModel.receiveSearchDataGet(get, outputLang)
             }
+        }
+
+        binding.resultNewsText2.setOnItemClickListener { adapterView, _, i, _ ->
+            val item = adapterView.getItemAtPosition(i) as MutableMap<*, *>
+            val url = item["url"]
+            uri = Uri.parse(url as String?)
+
+            val selectDialogFragment = SelectDialog()
+            selectDialogFragment.show(supportFragmentManager, "selectFragment")
+        }
+    }
+
+    override fun onDialogFlagReceive(dialog: DialogFragment, flag: Boolean) {
+        if (flag){
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }else{
+            val tweetIntent = Intent(this, TweetActivity::class.java)
+            tweetIntent.putExtra("uri", uri)
+            startActivity(tweetIntent)
         }
     }
 }
