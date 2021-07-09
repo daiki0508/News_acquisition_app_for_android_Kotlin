@@ -6,11 +6,10 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.websarva.wings.android.newsapp_kotlin.ShortUrlService
 import com.websarva.wings.android.newsapp_kotlin.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
-import com.websarva.wings.android.newsapp_kotlin.model.Search
-import com.websarva.wings.android.newsapp_kotlin.model.Translate
-import com.websarva.wings.android.newsapp_kotlin.model.Value
+import com.websarva.wings.android.newsapp_kotlin.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,6 +25,8 @@ class WebSearchViewModel: ViewModel() {
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
     private val serviceTranslate = retrofitTranslate.create(TranslateService::class.java)
+
+    private val serviceShortUrl = MainActivity().retrofitSearch.create(ShortUrlService::class.java)
 
     private val _word = MutableLiveData<String>().apply {
         MutableLiveData<String>()
@@ -58,7 +59,7 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    private fun receiveTranslateData(value: List<Value>, outputLang: String){
+    private suspend fun receiveTranslateData(value: List<Value>, outputLang: String){
         val code: String = when (outputLang) {
             "ニュースアプリ_Kotlin" -> "ja"
             "新闻应用_Kotlin" -> "zh"
@@ -66,8 +67,8 @@ class WebSearchViewModel: ViewModel() {
             "Приложение новостей" -> "ru"
             else -> "en"
         }
-        if (code != "en") {
-            viewModelScope.launch {
+
+            if (code != "en") {
                 for (i in 0..9) {
                     val params: Map<String, String> = hashMapOf(
                         "text" to value[i].title,
@@ -77,21 +78,42 @@ class WebSearchViewModel: ViewModel() {
                     val getTranslate = serviceTranslate.getRawRequestForTranslate(params)
                     val responseBodyTranslate =
                         translateDataBackGroundRunner(getTranslate)
-                    responseBodyTranslate.body()?.let {
-                        value[i].title = it.text
-                    }
+                    val it = responseBodyTranslate.body()
+                        value[i].title = it?.text.toString()
                 }
-                _value.postValue(value.toMutableList())
             }
-        }else{
-            _value.postValue(value.toMutableList())
-        }
+            //_value.postValue(value.toMutableList())
+            receiveShortUrl(value)
+
     }
 
     @WorkerThread
     private suspend fun translateDataBackGroundRunner(get: Call<Translate>): Response<Translate>{
         return withContext(Dispatchers.IO){
             val responseBody = get.execute()
+
+            responseBody
+        }
+    }
+
+    @UiThread
+    private suspend fun receiveShortUrl(value: List<Value>){
+            for (i in 0..9){
+                Log.d("test", "UrlCalled!!")
+                val post = serviceShortUrl.postRawRequestForShortUrl(value[i].url)
+                Log.d("test2", "UrlCalled!!")
+                val responseBody = shortUrlBackGroundRunner(post)
+                responseBody.body()?.let {
+                    value[i].url = it.data.url
+                }
+            }
+            _value.postValue(value.toMutableList())
+    }
+
+    @WorkerThread
+    private suspend fun shortUrlBackGroundRunner(post: Call<ShortUrl>): Response<ShortUrl>{
+        return withContext(Dispatchers.IO){
+            val responseBody = post.execute()
 
             responseBody
         }
