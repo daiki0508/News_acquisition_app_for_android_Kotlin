@@ -20,6 +20,7 @@
     </string-array>
     <string name="twitter_describe">記事と一緒にツイートする文章があれば、入力してください。</string>
     <string name="tweet_btn">Tweetする</string>
+    <string name="limit_text">入力可能文字数は%1$dです</string>
     <string name="no_tweet_app">Twitter公式アプリが見つかりません</string>
     <string name="tweet_app_install">インストール</string>
     <string name="playStore_url" tools:ignore="ExtraTranslation">http://play.google.com/store/apps/details?id=com.twitter.android</string>

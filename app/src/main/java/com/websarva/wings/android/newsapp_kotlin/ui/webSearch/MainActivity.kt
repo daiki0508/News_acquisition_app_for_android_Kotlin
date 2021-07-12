@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
     private val from = arrayOf("title", "url")
     private val to = intArrayOf(android.R.id.text1, android.R.id.text2)
 
-    private lateinit var uri: Uri
+    private lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +79,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
         binding.resultNewsText2.setOnItemClickListener { adapterView, _, i, _ ->
             val item = adapterView.getItemAtPosition(i) as MutableMap<*, *>
-            val url = item["url"]
-            uri = Uri.parse(url as String?)
+            url = item["url"] as String
 
             val selectDialogFragment = SelectDialog()
             selectDialogFragment.show(supportFragmentManager, "selectFragment")
@@ -89,10 +88,10 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
     override fun onDialogFlagReceive(dialog: DialogFragment, flag: Boolean) {
         if (flag){
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }else{
             val tweetIntent = Intent(this, TweetActivity::class.java)
-            tweetIntent.putExtra("uri", uri)
+            tweetIntent.putExtra("uri", url)
             startActivity(tweetIntent)
         }
     }

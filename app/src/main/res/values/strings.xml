@@ -20,6 +20,7 @@
     </string-array>
     <string name="twitter_describe">If you have a sentence to tweet with the article, please enter it.</string>
     <string name="tweet_btn">Tweet</string>
+    <string name="limit_text">The number of characters that can be entered is %1$d</string>
     <string name="no_tweet_app">Twitter official app not found</string>
     <string name="tweet_app_install">Install</string>
     <string name="playStore_url" translatable="false" tools:ignore="ExtraTranslation">http://play.google.com/store/apps/details?id=com.twitter.android</string>
