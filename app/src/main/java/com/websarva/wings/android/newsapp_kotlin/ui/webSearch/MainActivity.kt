@@ -90,9 +90,10 @@ class MainActivity : AppCompatActivity(), DialogLister {
         if (flag){
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }else{
-            val tweetIntent = Intent(this, TweetActivity::class.java)
-            tweetIntent.putExtra("uri", url)
-            startActivity(tweetIntent)
+            Intent(this, TweetActivity::class.java).apply {
+                putExtra("url", url)
+                startActivity(this)
+            }
         }
     }
 }
