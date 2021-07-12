@@ -13,6 +13,8 @@
     <string name="search_conditions3">Search words</string>
     <string name="execute_text">Execute Search</string>
     <string name="result_text">News List</string>
+    <string name="tvNews">News</string>
+    <string name="tvWeather">Weather</string>
     <string name="dialog_title">Select</string>
     <string-array name="select_dialog">
         <item>Open in browser</item>

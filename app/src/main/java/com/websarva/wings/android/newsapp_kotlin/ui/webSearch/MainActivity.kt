@@ -40,7 +40,10 @@ class MainActivity : AppCompatActivity(), DialogLister {
             setContentView(this.root)
         }
 
-        binding.progressbar.visibility = View.GONE
+        val progressBar = binding.progressbar
+        progressBar.visibility = View.GONE
+        progressBar.max = 100
+
         val outputLang = getString(R.string.app_name)
 
         viewModel.value().observe(this, {
@@ -56,6 +59,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 val adapter = SimpleAdapter(this, resultList, android.R.layout.simple_list_item_2, from, to)
                 binding.resultNewsText2.adapter = adapter
                 adapter.notifyDataSetChanged()
+
+                progressBar.visibility = View.GONE
             }
         })
 
@@ -72,8 +77,11 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 }
                 Toast.makeText(this, show, Toast.LENGTH_SHORT).show()
             }else{
+                progressBar.visibility = View.VISIBLE
+                progressBar.progress = 0
+
                 val get = serviceSearch.getRawRequestForSearch(viewModel.word().value!!)
-                viewModel.receiveSearchDataGet(get, outputLang)
+                viewModel.receiveSearchDataGet(get, outputLang, progressBar)
             }
         }
 

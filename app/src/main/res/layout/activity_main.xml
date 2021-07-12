@@ -1,77 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="#dfe"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_conditions_text"
-        android:textSize="25sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_conditions2" />
+            android:text="@string/search_conditions_text"
+            android:textSize="25sp" />
 
-        <Spinner
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/search_conditions2_list"
-            android:entries="@array/conditions_lang"
-            android:layout_marginStart="5dp" />
-    </LinearLayout>
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_conditions2" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_conditions2_list"
+                android:entries="@array/conditions_lang"
+                android:layout_marginStart="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:text="@string/search_conditions3" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:id="@+id/search_conditions3_edit"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/executeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/execute_text" />
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressbar"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            style="@android:style/Widget.ProgressBar.Horizontal" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search_conditions3" />
+            android:text="@string/result_text"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp" />
 
-        <EditText
-            android:layout_width="0dp"
+        <ListView
+            android:id="@+id/result_news_text2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.97"
+            android:layout_marginTop="5dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
-            android:id="@+id/search_conditions3_edit"
-            android:inputType="text"
-            android:importantForAutofill="no" />
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvNews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:gravity="end"
+                android:text="@string/tvNews"
+                android:textSize="20sp"
+                android:textColor="@color/purple_500"/>
+
+            <TextView
+                android:id="@+id/tvWeather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:gravity="start"
+                android:text="@string/tvWeather"
+                android:textSize="20sp"
+                android:textColor="@color/purple_500"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/executeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/execute_text" />
-    <ProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressbar"
-        android:layout_marginTop="10dp"
-        android:indeterminate="false"
-        style="@android:style/Widget.ProgressBar.Horizontal" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/result_text"
-        android:layout_marginTop="10dp"
-        android:textSize="25sp" />
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/result_news_text2"
-        android:layout_marginTop="5dp" />
 </LinearLayout>

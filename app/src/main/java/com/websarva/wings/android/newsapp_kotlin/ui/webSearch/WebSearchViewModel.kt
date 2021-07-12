@@ -1,6 +1,7 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.webSearch
 
 import android.util.Log
+import android.widget.ProgressBar
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
@@ -36,14 +37,15 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    fun receiveSearchDataGet(get: Call<Search>, outputLang: String) {
+    fun receiveSearchDataGet(get: Call<Search>, outputLang: String, progressBar: ProgressBar) {
         viewModelScope.launch {
             val responseBody = searchDataBackGroundRunner(get)
             if (responseBody.isSuccessful) {
                 responseBody.body()?.let {
                     //_value.value = it.value.toMutableList()
                     Log.d("test", "called!!")
-                    receiveTranslateData(it.value, outputLang)
+                    progressBar.progress = 10
+                    receiveTranslateData(it.value, outputLang, progressBar)
                 }
             }
         }
@@ -59,7 +61,7 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    private suspend fun receiveTranslateData(value: List<Value>, outputLang: String){
+    private suspend fun receiveTranslateData(value: List<Value>, outputLang: String, progressBar: ProgressBar){
         val code: String = when (outputLang) {
             "ニュースアプリ_Kotlin" -> "ja"
             "新闻应用_Kotlin" -> "zh"
@@ -80,10 +82,14 @@ class WebSearchViewModel: ViewModel() {
                         translateDataBackGroundRunner(getTranslate)
                     val it = responseBodyTranslate.body()
                         value[i].title = it?.text.toString()
+
+                    progressBar.progress += 4
                 }
+            }else{
+                progressBar.progress = 50
             }
             //_value.postValue(value.toMutableList())
-            receiveShortUrl(value)
+            receiveShortUrl(value, progressBar)
 
     }
 
@@ -97,7 +103,7 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    private suspend fun receiveShortUrl(value: List<Value>){
+    private suspend fun receiveShortUrl(value: List<Value>, progressBar: ProgressBar){
             for (i in 0..9){
                 Log.d("test", "UrlCalled!!")
                 val post = serviceShortUrl.postRawRequestForShortUrl(value[i].url)
@@ -106,6 +112,7 @@ class WebSearchViewModel: ViewModel() {
                 responseBody.body()?.let {
                     value[i].url = it.data.url
                 }
+                progressBar.progress += 5
             }
             _value.postValue(value.toMutableList())
     }
