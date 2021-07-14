@@ -1,5 +1,6 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.weather
 
+import android.util.Log
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
@@ -23,16 +24,25 @@ class WeatherViewModel: ViewModel() {
     private val _weatherList = MutableLiveData<MutableList<MutableMap<String, String?>>>().apply {
         MutableLiveData<MutableList<MutableMap<String, Any>>>()
     }
+    private val _imageFlag = MutableLiveData<Int>().apply {
+        MutableLiveData<Int>()
+    }
     private var weatherList: MutableList<MutableMap<String, String?>>
 
     @UiThread
     fun receiveWeatherDataGet(get: Call<Weather>, outputLang: String){
         viewModelScope.launch {
+            weatherList = mutableListOf()
             val responseBody = weatherDataBackGroundRunner(get)
             responseBody.body()?.let {
                 if (it.forecasts[0].temperature.min.celsius.isNullOrBlank() && it.forecasts[0].temperature.max.celsius.isNullOrBlank()){
                     it.forecasts[0].temperature.min.celsius = "不明"
                     it.forecasts[0].temperature.max.celsius = "不明"
+                }
+                when {
+                    Regex("^晴").containsMatchIn(it.forecasts[0].telop) -> _imageFlag.value = 0
+                    Regex("^曇").containsMatchIn(it.forecasts[0].telop) -> _imageFlag.value = 1
+                    else -> _imageFlag.value = 2
                 }
                 receiveTranslateData(it, outputLang)
             }
@@ -145,9 +155,13 @@ class WeatherViewModel: ViewModel() {
     fun weatherList(): MutableLiveData<MutableList<MutableMap<String, String?>>>{
         return _weatherList
     }
+    fun imageFlag(): MutableLiveData<Int>{
+        return _imageFlag
+    }
 
     init {
         _weatherList.value = mutableListOf()
         weatherList = mutableListOf()
+        _imageFlag.value = 0
     }
 }

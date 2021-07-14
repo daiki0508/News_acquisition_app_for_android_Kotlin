@@ -1,6 +1,8 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.weather
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +16,8 @@ import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.FileInputStream
 
 class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
@@ -43,10 +47,23 @@ class WeatherActivity : AppCompatActivity() {
 
         val from = arrayOf("prefecture", "dateLabel", "telop", "max", "min", "describe")
         val to = intArrayOf(R.id.get_prefecture, R.id.dateLabel, R.id.today_telop, R.id.today_max, R.id.today_min, R.id.weather_describe)
+        val screenWidth = binding.ivWeather.width
+        val screenHeight = binding.ivWeather.height
+        var bitMap: Bitmap
         viewModel.weatherList().observe(this, {
-            val adapter = SimpleAdapter(this, viewModel.weatherList().value, R.layout.row, from, to)
-            binding.weatherList.adapter = adapter
-            adapter.notifyDataSetChanged()
+            if (!viewModel.weatherList().value.isNullOrEmpty()){
+                when(viewModel.imageFlag().value){
+                    0 -> bitMap = BitmapFactory.decodeResource(resources, R.drawable.sunny)
+                    1 -> bitMap = BitmapFactory.decodeResource(resources, R.drawable.cloudy)
+                    else -> bitMap = BitmapFactory.decodeResource(resources, R.drawable.rainny)
+                }
+                binding.ivWeather.setImageBitmap(bitMap)
+
+                val adapter = SimpleAdapter(this, viewModel.weatherList().value, R.layout.row, from, to)
+                binding.weatherList.adapter = adapter
+                adapter.notifyDataSetChanged()
+                Log.d("test", "Called!!")
+            }
         })
 
         binding.weatherExecute.setOnClickListener {
@@ -72,16 +89,16 @@ class WeatherActivity : AppCompatActivity() {
                 "0${selected_id+1}0010"
             }
             in 10..19 -> {
-                "1${selected_id+1}0010"
+                "${selected_id+1}0010"
             }
             in 20..29 -> {
-                "2${selected_id+1}0010"
+                "${selected_id+1}0010"
             }
             in 30..39 -> {
-                "3${selected_id+1}0010"
+                "${selected_id+1}0010"
             }
             in 40..45 -> {
-                "4${selected_id+1}0010"
+                "${selected_id+1}0010"
             }
             46 -> {
                 "471010"
