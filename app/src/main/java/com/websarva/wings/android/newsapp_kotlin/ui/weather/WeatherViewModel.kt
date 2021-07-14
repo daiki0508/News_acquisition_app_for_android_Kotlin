@@ -20,16 +20,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WeatherViewModel: ViewModel() {
-    private val _weatherList = MutableLiveData<MutableList<MutableMap<String, Any>>>().apply {
+    private val _weatherList = MutableLiveData<MutableList<MutableMap<String, String?>>>().apply {
         MutableLiveData<MutableList<MutableMap<String, Any>>>()
     }
-    private var weatherList: MutableList<MutableMap<String, Any>>
+    private var weatherList: MutableList<MutableMap<String, String?>>
 
     @UiThread
     fun receiveWeatherDataGet(get: Call<Weather>, outputLang: String){
         viewModelScope.launch {
             val responseBody = weatherDataBackGroundRunner(get)
             responseBody.body()?.let {
+                if (it.forecasts[0].temperature.min.celsius.isNullOrBlank() && it.forecasts[0].temperature.max.celsius.isNullOrBlank()){
+                    it.forecasts[0].temperature.min.celsius = "不明"
+                    it.forecasts[0].temperature.max.celsius = "不明"
+                }
                 receiveTranslateData(it, outputLang)
             }
         }
@@ -48,35 +52,37 @@ class WeatherViewModel: ViewModel() {
     private suspend fun receiveTranslateData(weather: Weather, outputLang: String){
         val code = CommonClass(outputLang).code
         if (code != "ja"){
-            for (i in 0..4){
-                val params: Map<String, String> = when(i){
-                    0 -> hashMapOf(
-                        "text" to weather.location.prefecture,
-                        "source" to "en",
-                        "target" to code
+            for (i in 0..6){
+                val params: MutableMap<String, String?> = hashMapOf()
+                when(i){
+                    0 -> params += hashMapOf(
+                        "text" to weather.location.prefecture
                     )
-                    1 -> hashMapOf(
-                        "text" to weather.forecasts[0].telop,
-                        "source" to "en",
-                        "target" to code
+                    1 -> params += hashMapOf(
+                        "text" to weather.forecasts[0].telop
                     )
-                    2 -> hashMapOf(
-                        "text" to weather.forecasts[1].telop,
-                        "source" to "en",
-                        "target" to code
+                    2 -> params += hashMapOf(
+                        "text" to weather.forecasts[1].telop
                     )
-                    3 -> hashMapOf(
-                        "text" to weather.forecasts[2].telop,
-                        "source" to "en",
-                        "target" to code
+                    3 -> params += hashMapOf(
+                        "text" to weather.forecasts[2].telop
                     )
-                    else -> hashMapOf(
-                        "text" to weather.description.text,
-                        "source" to "en",
-                        "target" to code
+                    4 -> params += hashMapOf(
+                        "text" to weather.forecasts[0].temperature.max.celsius
+                    )
+                    5 -> params += hashMapOf(
+                        "text" to weather.forecasts[0].temperature.min.celsius
+                    )
+                    else -> params += hashMapOf(
+                        "text" to weather.description.text
                     )
                 }
-                val get = WeatherActivity().serviceTranslate.getRawRequestForTranslate(params)
+                params += hashMapOf(
+                    "source" to "ja",
+                    "target" to code
+                )
+
+                val get = WeatherActivity().serviceTranslate.getRawRequestForTranslate(params.toMap())
                 val responseBody = translateDataBackGroundRunner(get)
                 responseBody.body()?.let {
                     when (i) {
@@ -84,6 +90,8 @@ class WeatherViewModel: ViewModel() {
                         1 -> weather.forecasts[0].telop = it.text
                         2 -> weather.forecasts[1].telop = it.text
                         3 -> weather.forecasts[2].telop = it.text
+                        4 -> weather.forecasts[0].temperature.max.celsius = it.text
+                        5 -> weather.forecasts[0].temperature.min.celsius = it.text
                         else -> weather.description.text = it.text
                     }
                 }
@@ -104,46 +112,37 @@ class WeatherViewModel: ViewModel() {
     @UiThread
     private fun setWeatherData(it: Weather){
         for (i in 0..2){
+            val weather = mutableMapOf<String, String?>()
             when(i){
                 0 -> {
-                    val weather = mutableMapOf(
-                        "prefecture" to it.location.prefecture,
-                        "dateLabel" to "(${it.forecasts[0].dateLabel}):",
-                        "telop" to it.forecasts[0].telop,
-                        "max" to it.forecasts[0].temperature.max,
-                        "min" to it.forecasts[0].temperature.min,
-                        "describe" to it.description
-                        )
-                    weatherList.add(weather)
+                    weather += mutableMapOf(
+                        "describe" to it.description.text
+                    )
                 }
                 1 -> {
-                    val weather = mutableMapOf(
-                        "prefecture" to it.location.prefecture,
-                        "dateLabel" to "(${it.forecasts[1].dateLabel}):",
-                        "telop" to it.forecasts[1].telop,
-                        "max" to it.forecasts[1].temperature.max,
-                        "min" to it.forecasts[1].temperature.min,
-                        "describe" to "",
-                    )
-                    weatherList.add(weather)
-                }
-                else -> {
-                    val weather = mutableMapOf(
-                        "prefecture" to it.location.prefecture,
-                        "dateLabel" to it.forecasts[2].dateLabel,
-                        "telop" to it.forecasts[2].telop,
-                        "max" to it.forecasts[2].temperature.max,
-                        "min" to it.forecasts[2].temperature.min,
+                    weather += mutableMapOf(
                         "describe" to ""
                     )
-                    weatherList.add(weather)
-                    _weatherList.postValue(weatherList)
+                }
+                else -> {
+                    weather += mutableMapOf(
+                        "describe" to ""
+                    )
                 }
             }
+            weather += mutableMapOf(
+                "prefecture" to it.location.prefecture,
+                "dateLabel" to "(${it.forecasts[i].dateLabel}):",
+                "telop" to it.forecasts[i].telop,
+                "max" to "${it.forecasts[i].temperature.max.celsius}℃",
+                "min" to "${it.forecasts[i].temperature.min.celsius}℃",
+            )
+            weatherList.add(weather)
         }
+        _weatherList.postValue(weatherList)
     }
 
-    fun weatherList(): MutableLiveData<MutableList<MutableMap<String, Any>>>{
+    fun weatherList(): MutableLiveData<MutableList<MutableMap<String, String?>>>{
         return _weatherList
     }
 

@@ -7,5 +7,5 @@ import retrofit2.http.QueryMap
 
 interface TranslateService {
     @GET("exec")
-    fun getRawRequestForTranslate(@QueryMap params: Map<String, String>): Call<Translate>
+    fun getRawRequestForTranslate(@QueryMap params: Map<String, String?>): Call<Translate>
 }
