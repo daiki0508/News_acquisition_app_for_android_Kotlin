@@ -13,7 +13,9 @@ import com.websarva.wings.android.newsapp_kotlin.DialogLister
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.service.SearchService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
+import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.ui.tweet.TweetActivity
+import com.websarva.wings.android.newsapp_kotlin.ui.weather.WeatherActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,8 +30,11 @@ class MainActivity : AppCompatActivity(), DialogLister {
     }.build()
     private val serviceSearch = retrofitSearch.create(SearchService::class.java)
 
-    private val from = arrayOf("title", "url")
-    private val to = intArrayOf(android.R.id.text1, android.R.id.text2)
+    private val retrofitTranslate: Retrofit = Retrofit.Builder().apply {
+        baseUrl("https://script.google.com/macros/s/AKfycbzZtvOvf14TaMdRIYzocRcf3mktzGgXvlFvyczo/")
+            .addConverterFactory(GsonConverterFactory.create())
+    }.build()
+    val serviceTranslate: TranslateService = retrofitTranslate.create(TranslateService::class.java)
 
     private lateinit var url: String
 
@@ -46,6 +51,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
         val outputLang = getString(R.string.app_name)
 
+        val from = arrayOf("title", "url")
+        val to = intArrayOf(android.R.id.text1, android.R.id.text2)
         viewModel.value().observe(this, {
             val value = viewModel.value().value!!
             if (!value.isNullOrEmpty()){
@@ -61,6 +68,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 adapter.notifyDataSetChanged()
 
                 progressBar.visibility = View.GONE
+                binding.executeButton.isEnabled = true
             }
         })
 
@@ -77,6 +85,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 }
                 Toast.makeText(this, show, Toast.LENGTH_SHORT).show()
             }else{
+                binding.executeButton.isEnabled = false
                 progressBar.visibility = View.VISIBLE
                 progressBar.progress = 0
 
@@ -91,6 +100,12 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
             val selectDialogFragment = SelectDialog()
             selectDialogFragment.show(supportFragmentManager, "selectFragment")
+        }
+
+        binding.tvWeather.setOnClickListener {
+            startActivity(Intent(this, WeatherActivity::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            finish()
         }
     }
 

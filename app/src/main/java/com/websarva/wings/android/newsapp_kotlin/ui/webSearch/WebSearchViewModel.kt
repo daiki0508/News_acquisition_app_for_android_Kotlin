@@ -7,6 +7,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.websarva.wings.android.newsapp_kotlin.CommonClass
 import com.websarva.wings.android.newsapp_kotlin.service.ShortUrlService
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
@@ -21,12 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WebSearchViewModel: ViewModel() {
-    private val retrofitTranslate = Retrofit.Builder().apply {
-        baseUrl("https://script.google.com/macros/s/AKfycbzZtvOvf14TaMdRIYzocRcf3mktzGgXvlFvyczo/")
-            .addConverterFactory(GsonConverterFactory.create())
-    }.build()
-    private val serviceTranslate = retrofitTranslate.create(TranslateService::class.java)
-
     private val serviceShortUrl = MainActivity().retrofitSearch.create(ShortUrlService::class.java)
 
     private val _word = MutableLiveData<String>().apply {
@@ -62,13 +57,14 @@ class WebSearchViewModel: ViewModel() {
 
     @UiThread
     private suspend fun receiveTranslateData(value: List<Value>, outputLang: String, progressBar: ProgressBar){
-        val code: String = when (outputLang) {
+        /*val code: String = when (outputLang) {
             "ニュースアプリ_Kotlin" -> "ja"
             "新闻应用_Kotlin" -> "zh"
             "뉴스 애플 리케이션_Kotlin" -> "ko"
             "Приложение новостей" -> "ru"
             else -> "en"
-        }
+        }*/
+        val code = CommonClass(outputLang).code
 
             if (code != "en") {
                 for (i in 0..9) {
@@ -77,12 +73,12 @@ class WebSearchViewModel: ViewModel() {
                         "source" to "en",
                         "target" to code
                     )
-                    val getTranslate = serviceTranslate.getRawRequestForTranslate(params)
+                    val getTranslate = MainActivity().serviceTranslate.getRawRequestForTranslate(params)
                     val responseBodyTranslate =
                         translateDataBackGroundRunner(getTranslate)
-                    val it = responseBodyTranslate.body()
-                        value[i].title = it?.text.toString()
-
+                    responseBodyTranslate.body()?.let {
+                        value[i].title = it.text
+                    }
                     progressBar.progress += 4
                 }
             }else{
