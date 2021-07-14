@@ -1,6 +1,7 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.weather
 
 import android.util.Log
+import android.widget.ProgressBar
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
@@ -30,11 +31,14 @@ class WeatherViewModel: ViewModel() {
     private var weatherList: MutableList<MutableMap<String, String?>>
 
     @UiThread
-    fun receiveWeatherDataGet(get: Call<Weather>, outputLang: String){
+    fun receiveWeatherDataGet(get: Call<Weather>, outputLang: String, progressBar: ProgressBar){
         viewModelScope.launch {
             weatherList = mutableListOf()
+            progressBar.progress = 5
+
             val responseBody = weatherDataBackGroundRunner(get)
             responseBody.body()?.let {
+                progressBar.progress = 20
                 if (it.forecasts[0].temperature.min.celsius.isNullOrBlank() && it.forecasts[0].temperature.max.celsius.isNullOrBlank()){
                     it.forecasts[0].temperature.min.celsius = "不明"
                     it.forecasts[0].temperature.max.celsius = "不明"
@@ -44,7 +48,8 @@ class WeatherViewModel: ViewModel() {
                     Regex("^曇").containsMatchIn(it.forecasts[0].telop) -> _imageFlag.value = 1
                     else -> _imageFlag.value = 2
                 }
-                receiveTranslateData(it, outputLang)
+                progressBar.progress = 30
+                receiveTranslateData(it, outputLang, progressBar)
             }
         }
     }
@@ -59,7 +64,7 @@ class WeatherViewModel: ViewModel() {
     }
 
     @UiThread
-    private suspend fun receiveTranslateData(weather: Weather, outputLang: String){
+    private suspend fun receiveTranslateData(weather: Weather, outputLang: String, progressBar: ProgressBar){
         val code = CommonClass(outputLang).code
         if (code != "ja"){
             for (i in 0..6){
@@ -92,6 +97,8 @@ class WeatherViewModel: ViewModel() {
                     "target" to code
                 )
 
+                progressBar.progress += 4
+
                 val get = WeatherActivity().serviceTranslate.getRawRequestForTranslate(params.toMap())
                 val responseBody = translateDataBackGroundRunner(get)
                 responseBody.body()?.let {
@@ -105,9 +112,12 @@ class WeatherViewModel: ViewModel() {
                         else -> weather.description.text = it.text
                     }
                 }
+                progressBar.progress += 5
             }
+        }else{
+            progressBar.progress = 84
         }
-        setWeatherData(weather)
+        setWeatherData(weather, progressBar)
     }
 
     @WorkerThread
@@ -120,7 +130,7 @@ class WeatherViewModel: ViewModel() {
     }
 
     @UiThread
-    private fun setWeatherData(it: Weather){
+    private fun setWeatherData(it: Weather, progressBar: ProgressBar){
         for (i in 0..2){
             val weather = mutableMapOf<String, String?>()
             when(i){
@@ -148,6 +158,7 @@ class WeatherViewModel: ViewModel() {
                 "min" to "${it.forecasts[i].temperature.min.celsius}℃",
             )
             weatherList.add(weather)
+            progressBar.progress += 2
         }
         _weatherList.postValue(weatherList)
     }

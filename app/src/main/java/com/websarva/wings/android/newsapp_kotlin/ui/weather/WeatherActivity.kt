@@ -47,15 +47,13 @@ class WeatherActivity : AppCompatActivity() {
 
         val from = arrayOf("prefecture", "dateLabel", "telop", "max", "min", "describe")
         val to = intArrayOf(R.id.get_prefecture, R.id.dateLabel, R.id.today_telop, R.id.today_max, R.id.today_min, R.id.weather_describe)
-        val screenWidth = binding.ivWeather.width
-        val screenHeight = binding.ivWeather.height
         var bitMap: Bitmap
         viewModel.weatherList().observe(this, {
             if (!viewModel.weatherList().value.isNullOrEmpty()){
-                when(viewModel.imageFlag().value){
-                    0 -> bitMap = BitmapFactory.decodeResource(resources, R.drawable.sunny)
-                    1 -> bitMap = BitmapFactory.decodeResource(resources, R.drawable.cloudy)
-                    else -> bitMap = BitmapFactory.decodeResource(resources, R.drawable.rainny)
+                bitMap = when(viewModel.imageFlag().value){
+                    0 -> BitmapFactory.decodeResource(resources, R.drawable.sunny)
+                    1 -> BitmapFactory.decodeResource(resources, R.drawable.cloudy)
+                    else -> BitmapFactory.decodeResource(resources, R.drawable.rainny)
                 }
                 binding.ivWeather.setImageBitmap(bitMap)
 
@@ -63,15 +61,22 @@ class WeatherActivity : AppCompatActivity() {
                 binding.weatherList.adapter = adapter
                 adapter.notifyDataSetChanged()
                 Log.d("test", "Called!!")
+
+                progressBar.progress = 100
+                progressBar.visibility = View.GONE
+                binding.weatherExecute.isEnabled = true
             }
         })
 
         binding.weatherExecute.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            binding.weatherExecute.isEnabled = false
+
             val areaCode = cityCode(binding.searchConditions1List.selectedItemId)
             Log.d("test", areaCode)
 
             val get = service.getRawRequestForWeather(areaCode)
-            viewModel.receiveWeatherDataGet(get, outputLang = getString(R.string.app_name))
+            viewModel.receiveWeatherDataGet(get, outputLang = getString(R.string.app_name), progressBar)
         }
 
         binding.tvNews.setOnClickListener {
