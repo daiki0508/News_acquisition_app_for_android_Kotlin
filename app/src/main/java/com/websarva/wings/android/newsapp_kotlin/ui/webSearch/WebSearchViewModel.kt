@@ -57,13 +57,6 @@ class WebSearchViewModel: ViewModel() {
 
     @UiThread
     private suspend fun receiveTranslateData(value: List<Value>, outputLang: String, progressBar: ProgressBar){
-        /*val code: String = when (outputLang) {
-            "ニュースアプリ_Kotlin" -> "ja"
-            "新闻应用_Kotlin" -> "zh"
-            "뉴스 애플 리케이션_Kotlin" -> "ko"
-            "Приложение новостей" -> "ru"
-            else -> "en"
-        }*/
         val code = CommonClass(outputLang).code
 
             if (code != "en") {

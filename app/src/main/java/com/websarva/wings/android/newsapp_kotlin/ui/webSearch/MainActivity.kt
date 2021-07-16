@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
             setContentView(this.root)
         }
 
+        setSupportActionBar(binding.toolbar)
+
         val progressBar = binding.progressbar
         progressBar.visibility = View.GONE
         progressBar.max = 100
