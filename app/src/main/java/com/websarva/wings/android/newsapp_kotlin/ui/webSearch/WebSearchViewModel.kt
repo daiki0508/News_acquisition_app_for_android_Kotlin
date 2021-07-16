@@ -73,7 +73,7 @@ class WebSearchViewModel: ViewModel() {
                         "source" to "en",
                         "target" to code
                     )
-                    val getTranslate = MainActivity().serviceTranslate.getRawRequestForTranslate(params)
+                    val getTranslate = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params)
                     val responseBodyTranslate =
                         translateDataBackGroundRunner(getTranslate)
                     responseBodyTranslate.body()?.let {

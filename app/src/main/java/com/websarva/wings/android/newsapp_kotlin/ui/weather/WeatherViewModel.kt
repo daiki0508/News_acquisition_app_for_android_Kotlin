@@ -39,8 +39,10 @@ class WeatherViewModel: ViewModel() {
             val responseBody = weatherDataBackGroundRunner(get)
             responseBody.body()?.let {
                 progressBar.progress = 20
-                if (it.forecasts[0].temperature.min.celsius.isNullOrBlank() && it.forecasts[0].temperature.max.celsius.isNullOrBlank()){
+                if (it.forecasts[0].temperature.min.celsius.isNullOrBlank()){
                     it.forecasts[0].temperature.min.celsius = "不明"
+                }
+                if (it.forecasts[0].temperature.max.celsius.isNullOrBlank()){
                     it.forecasts[0].temperature.max.celsius = "不明"
                 }
                 when {
@@ -64,7 +66,7 @@ class WeatherViewModel: ViewModel() {
     }
 
     @UiThread
-    private suspend fun receiveTranslateData(weather: Weather, outputLang: String, progressBar: ProgressBar){
+    private suspend fun receiveTranslateData(weather: Weather,outputLang: String, progressBar: ProgressBar){
         val code = CommonClass(outputLang).code
         if (code != "ja"){
             for (i in 0..6){
@@ -99,7 +101,7 @@ class WeatherViewModel: ViewModel() {
 
                 progressBar.progress += 4
 
-                val get = WeatherActivity().serviceTranslate.getRawRequestForTranslate(params.toMap())
+                val get = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params.toMap())
                 val responseBody = translateDataBackGroundRunner(get)
                 responseBody.body()?.let {
                     when (i) {

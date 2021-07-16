@@ -30,12 +30,6 @@ class MainActivity : AppCompatActivity(), DialogLister {
     }.build()
     private val serviceSearch = retrofitSearch.create(SearchService::class.java)
 
-    private val retrofitTranslate: Retrofit = Retrofit.Builder().apply {
-        baseUrl("https://script.google.com/macros/s/AKfycbzZtvOvf14TaMdRIYzocRcf3mktzGgXvlFvyczo/")
-            .addConverterFactory(GsonConverterFactory.create())
-    }.build()
-    val serviceTranslate: TranslateService = retrofitTranslate.create(TranslateService::class.java)
-
     private lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +42,6 @@ class MainActivity : AppCompatActivity(), DialogLister {
         val progressBar = binding.progressbar
         progressBar.visibility = View.GONE
         progressBar.max = 100
-
         val outputLang = getString(R.string.app_name)
 
         val from = arrayOf("title", "url")

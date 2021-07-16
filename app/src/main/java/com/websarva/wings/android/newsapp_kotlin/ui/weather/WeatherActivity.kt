@@ -16,8 +16,6 @@ import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
-import java.io.FileInputStream
 
 class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
@@ -28,12 +26,6 @@ class WeatherActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
     private val service = retrofit.create(WeatherService::class.java)
-
-    private val retrofitTranslate: Retrofit = Retrofit.Builder().apply {
-        baseUrl("https://script.google.com/macros/s/AKfycbzZtvOvf14TaMdRIYzocRcf3mktzGgXvlFvyczo/")
-            .addConverterFactory(GsonConverterFactory.create())
-    }.build()
-    val serviceTranslate: TranslateService = retrofitTranslate.create(TranslateService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,24 +78,22 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
-    private fun cityCode(selected_id: Long): String{
-        var retId = ""
-
-        retId = when (selected_id.toInt()) {
+    private fun cityCode(selected_id: Long): String {
+        return when (selected_id.toInt()) {
             in 1..9 -> {
-                "0${selected_id+1}0010"
+                "0${selected_id + 1}0010"
             }
             in 10..19 -> {
-                "${selected_id+1}0010"
+                "${selected_id + 1}0010"
             }
             in 20..29 -> {
-                "${selected_id+1}0010"
+                "${selected_id + 1}0010"
             }
             in 30..39 -> {
-                "${selected_id+1}0010"
+                "${selected_id + 1}0010"
             }
             in 40..45 -> {
-                "${selected_id+1}0010"
+                "${selected_id + 1}0010"
             }
             46 -> {
                 "471010"
@@ -112,6 +102,5 @@ class WeatherActivity : AppCompatActivity() {
                 "016010"
             }
         }
-        return retId
     }
 }
