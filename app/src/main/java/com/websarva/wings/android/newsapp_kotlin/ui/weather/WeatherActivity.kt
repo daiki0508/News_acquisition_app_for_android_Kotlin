@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -39,6 +37,9 @@ class WeatherActivity : AppCompatActivity() {
         binding = ActivityWeatherBinding.inflate(layoutInflater).apply {
             setContentView(this.root)
         }
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
         val layoutManager = LinearLayoutManager(this)
         binding.weatherList.layoutManager = layoutManager
 
@@ -79,6 +80,32 @@ class WeatherActivity : AppCompatActivity() {
             val get = service.getRawRequestForWeather(areaCode)
             viewModel.receiveWeatherDataGet(get, outputLang = getString(R.string.app_name), progressBar)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val webSearch = menu?.findItem(R.id.action_weather)
+        webSearch?.isEnabled = false
+
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_options_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var returnVal = true
+        when(item.itemId){
+            R.id.action_webSearch -> {
+                startActivity(Intent(this, MainActivity::class.java))
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+            }
+            else -> returnVal = super.onOptionsItemSelected(item)
+        }
+        return returnVal
     }
 
     private fun cityCode(selected_id: Long): String {
