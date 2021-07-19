@@ -35,6 +35,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="45dp"
                     app:layout_collapseMode="parallax">
 
@@ -55,6 +57,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="75dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:id="@+id/weather_execute"
                     android:text="@string/execute_text"
                     app:layout_collapseMode="parallax"
@@ -88,7 +92,6 @@
                     android:textSize="25sp"
                     android:layout_marginTop="25dp"
                     android:layout_gravity="center_horizontal" />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"

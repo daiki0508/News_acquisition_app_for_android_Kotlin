@@ -48,22 +48,18 @@ class WeatherActivity : AppCompatActivity() {
 
         binding.navigationView.setNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.menu_webSearch -> Log.d("test", "webSearch")
-                R.id.menu_weather -> Log.d("test", "weather")
+                R.id.menu_webSearch -> webSearchIntent()
             }
 
             binding.drawerLayout.closeDrawer(GravityCompat.START)
             return@setNavigationItemSelectedListener true
         }
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.weatherList.layoutManager = layoutManager
+        binding.weatherList.layoutManager = LinearLayoutManager(this)
 
         val progressBar = binding.progressbar
         progressBar.visibility = View.GONE
 
-        /*val from = arrayOf("prefecture", "dateLabel", "telop", "max", "min", "describe")
-        val to = intArrayOf(R.id.get_prefecture, R.id.dateLabel, R.id.today_telop, R.id.today_max, R.id.today_min, R.id.weather_describe)*/
         var bitMap: Bitmap
         viewModel.weatherList().observe(this, {
             if (!viewModel.weatherList().value.isNullOrEmpty()){
@@ -115,13 +111,17 @@ class WeatherActivity : AppCompatActivity() {
         var returnVal = true
         when(item.itemId){
             R.id.action_webSearch -> {
-                startActivity(Intent(this, MainActivity::class.java))
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
+                webSearchIntent()
             }
             else -> returnVal = super.onOptionsItemSelected(item)
         }
         return returnVal
+    }
+
+    private fun webSearchIntent(){
+        startActivity(Intent(this, MainActivity::class.java))
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        finish()
     }
 
     private fun cityCode(selected_id: Long): String {
@@ -153,8 +153,10 @@ class WeatherActivity : AppCompatActivity() {
 
 private class RecyclerViewHolder(var view: View): RecyclerView.ViewHolder(view){
     val getPrefecture: TextView = view.findViewById(R.id.get_prefecture)
-    //val dateLabel: TextView = view.findViewById(R.id.dateLabel)
-    //val telop : TextView = view.findViewById(R.id.today_telop)
+    val dateLabel: TextView = view.findViewById(R.id.dateLabel)
+    val telop : TextView = view.findViewById(R.id.today_telop)
+    val max: TextView = view.findViewById(R.id.today_max)
+    val min: TextView = view.findViewById(R.id.today_min)
     val describe: TextView = view.findViewById(R.id.weather_describe)
 }
 
@@ -168,11 +170,16 @@ private class RecyclerViewAdapter(var items: MutableList<MutableMap<String, Stri
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         holder.getPrefecture.text = items[position]["prefecture"]
+        holder.dateLabel.text = items[position]["dateLabel"]
+        holder.telop.text = items[position]["telop"]
+        holder.max.text = items[position]["max"]
+        holder.min.text = items[position]["min"]
         val describe = items[position]["describe"]
         if (!describe.isNullOrBlank()){
             holder.describe.text = describe
         }else{
             holder.describe.layoutParams.height = 300
+            holder.describe.text = ""
         }
     }
 
