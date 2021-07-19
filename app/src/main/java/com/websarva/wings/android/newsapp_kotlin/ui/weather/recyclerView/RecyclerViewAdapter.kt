@@ -8,7 +8,7 @@ import com.websarva.wings.android.newsapp_kotlin.R
 class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): RecyclerView.Adapter<RecyclerViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.row, parent, false)
+        val view = layoutInflater.inflate(R.layout.row_weather, parent, false)
 
         return RecyclerViewHolder(view)
     }

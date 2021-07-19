@@ -5,10 +5,17 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.SimpleAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.newsapp_kotlin.DialogLister
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.service.SearchService
@@ -46,8 +53,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
         progressBar.max = 100
         val outputLang = getString(R.string.app_name)
 
-        val from = arrayOf("title", "url")
-        val to = intArrayOf(android.R.id.text1, android.R.id.text2)
+        binding.resultNewsText2.layoutManager = LinearLayoutManager(this)
+
         viewModel.value().observe(this, {
             val value = viewModel.value().value!!
             if (!value.isNullOrEmpty()){
@@ -58,9 +65,23 @@ class MainActivity : AppCompatActivity(), DialogLister {
                     resultList.add(result)
                 }
 
-                val adapter = SimpleAdapter(this, resultList, android.R.layout.simple_list_item_2, from, to)
+                val adapter = RecyclerViewAdapter(resultList)
                 binding.resultNewsText2.adapter = adapter
+                binding.resultNewsText2.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
                 adapter.notifyDataSetChanged()
+
+                adapter.setOnItemClickListener(object: RecyclerViewAdapter.OnItemClickListener{
+                    override fun onItemClickListener(
+                        view: View,
+                        position: Int,
+                        clickedText: String
+                    ) {
+                        url = clickedText
+
+                        val selectDialogFragment = SelectDialog()
+                        selectDialogFragment.show(supportFragmentManager, "selectFragment")
+                    }
+                })
 
                 progressBar.visibility = View.GONE
                 binding.executeButton.isEnabled = true
@@ -88,20 +109,6 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 viewModel.receiveSearchDataGet(get, outputLang, progressBar)
             }
         }
-
-        binding.resultNewsText2.setOnItemClickListener { adapterView, _, i, _ ->
-            val item = adapterView.getItemAtPosition(i) as MutableMap<*, *>
-            url = item["url"] as String
-
-            val selectDialogFragment = SelectDialog()
-            selectDialogFragment.show(supportFragmentManager, "selectFragment")
-        }
-
-        binding.tvWeather.setOnClickListener {
-            startActivity(Intent(this, WeatherActivity::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            finish()
-        }
     }
 
     override fun onDialogFlagReceive(dialog: DialogFragment, flag: Boolean) {
@@ -114,4 +121,42 @@ class MainActivity : AppCompatActivity(), DialogLister {
             }
         }
     }
+}
+
+private class RecyclerViewHolder(var view: View): RecyclerView.ViewHolder(view){
+    val title: TextView = view.findViewById(R.id.rvtitle)
+    val url: TextView = view.findViewById(R.id.rvurl)
+}
+
+private class RecyclerViewAdapter(private var items: MutableList<MutableMap<String, String>>): RecyclerView.Adapter<RecyclerViewHolder>(){
+    lateinit var listener: OnItemClickListener
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(R.layout.row_websearch, parent, false)
+
+        return RecyclerViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+        holder.title.text = items[position]["title"]
+        holder.url.text = items[position]["url"]
+
+        holder.view.setOnClickListener {
+            listener.onItemClickListener(it, position, items[position]["url"]!!)
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onItemClickListener(view: View, position: Int, clickedText: String)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        this.listener = listener
+    }
+
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
 }
