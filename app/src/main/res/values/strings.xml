@@ -13,8 +13,6 @@
     <string name="search_conditions3">Search words</string>
     <string name="execute_text">Execute Search</string>
     <string name="result_text">News List</string>
-    <string name="tvNews">News</string>
-    <string name="tvWeather">Weather</string>
     <string name="dialog_title">Select</string>
     <string-array name="select_dialog">
         <item>Open in browser</item>
@@ -30,6 +28,8 @@
     <string name="NewsScreen">News</string>
     <string name="WeatherScreen">Weather</string>
     <string name="LicenseScreen">Licence</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
     <string name="weather_text_introduction">You can get the weather information.</string>
     <string-array name="prefectures">
         <item>Hokkaido</item>

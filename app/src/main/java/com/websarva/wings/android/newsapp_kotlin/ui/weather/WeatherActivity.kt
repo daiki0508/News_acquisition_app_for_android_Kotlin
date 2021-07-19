@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.*
 import android.widget.SimpleAdapter
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,6 +41,20 @@ class WeatherActivity : AppCompatActivity() {
         }
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        val toggle = ActionBarDrawerToggle(this, binding.drawerLayout,binding.toolbar, R.string.drawer_open, R.string.drawer_close)
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        binding.navigationView.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.menu_webSearch -> Log.d("test", "webSearch")
+                R.id.menu_weather -> Log.d("test", "weather")
+            }
+
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            return@setNavigationItemSelectedListener true
+        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.weatherList.layoutManager = layoutManager

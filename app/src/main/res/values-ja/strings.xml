@@ -13,8 +13,6 @@
     <string name="search_conditions3">検索用語</string>
     <string name="execute_text">検索</string>
     <string name="result_text">News一覧</string>
-    <string name="tvNews">ニュース</string>
-    <string name="tvWeather">天気</string>
     <string name="dialog_title">Select</string>
     <string-array name="select_dialog">
         <item>ブラウザで開く</item>
@@ -30,6 +28,8 @@
     <string name="NewsScreen">ニュース</string>
     <string name="WeatherScreen">天気</string>
     <string name="LicenseScreen">ライセンス</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
     <string name="weather_text_introduction">天気情報を取得できます</string>
     <string-array name="prefectures">
         <item>北海道</item>
