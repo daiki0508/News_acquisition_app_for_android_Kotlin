@@ -6,5 +6,10 @@ data class Search(
 
 data class Value(
     var title: String,
-    var url: String
+    var url: String,
+    var image: Image
+)
+
+data class Image(
+    var url: String? = ""
 )

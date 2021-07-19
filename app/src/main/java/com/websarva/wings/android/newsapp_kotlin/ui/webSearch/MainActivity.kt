@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 val resultList: MutableList<MutableMap<String, String>> = mutableListOf()
                 var result: MutableMap<String, String>
                 for (i in 0..9){
-                    result = mutableMapOf("title" to it[i].title, "url" to it[i].url)
+                    result = mutableMapOf("title" to it[i].title, "url" to it[i].url, "img" to it[i].image.url!!)
                     resultList.add(result)
                 }
 
