@@ -19,7 +19,7 @@ import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityWeatherBind
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.service.WeatherService
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
-import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView.RecyclerViewAdapter
+import com.websarva.wings.android.newsapp_kotlin.ui.weather.recyclerView.RecyclerViewAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

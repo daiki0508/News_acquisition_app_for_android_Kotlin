@@ -1,4 +1,4 @@
-package com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView
+package com.websarva.wings.android.newsapp_kotlin.ui.weather.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
