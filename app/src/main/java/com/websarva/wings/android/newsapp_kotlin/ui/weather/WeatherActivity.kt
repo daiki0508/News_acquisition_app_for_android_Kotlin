@@ -96,8 +96,8 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        val webSearch = menu?.findItem(R.id.action_weather)
-        webSearch?.isEnabled = false
+        val weather = menu?.findItem(R.id.action_weather)
+        weather?.isEnabled = false
 
         return true
     }

@@ -5,9 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.SimpleAdapter
 import android.widget.TextView
@@ -17,12 +15,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.newsapp_kotlin.DialogLister
+import com.websarva.wings.android.newsapp_kotlin.OnItemClickListener
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.service.SearchService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.ui.tweet.TweetActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.weather.WeatherActivity
+import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView.RecyclerViewAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
         }
 
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val progressBar = binding.progressbar
         progressBar.visibility = View.GONE
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 binding.resultNewsText2.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
                 adapter.notifyDataSetChanged()
 
-                adapter.setOnItemClickListener(object: RecyclerViewAdapter.OnItemClickListener{
+                adapter.setOnItemClickListener(object: OnItemClickListener{
                     override fun onItemClickListener(
                         view: View,
                         position: Int,
@@ -111,6 +112,30 @@ class MainActivity : AppCompatActivity(), DialogLister {
         }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val webSearch = menu?.findItem(R.id.action_webSearch)
+        webSearch?.isEnabled = false
+
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_options_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var returnVal = true
+        when(item.itemId){
+            R.id.action_weather -> {
+                weatherIntent()
+            }
+            else -> returnVal = super.onOptionsItemSelected(item)
+        }
+        return returnVal
+    }
+
     override fun onDialogFlagReceive(dialog: DialogFragment, flag: Boolean) {
         if (flag){
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
@@ -121,42 +146,10 @@ class MainActivity : AppCompatActivity(), DialogLister {
             }
         }
     }
-}
 
-private class RecyclerViewHolder(var view: View): RecyclerView.ViewHolder(view){
-    val title: TextView = view.findViewById(R.id.rvtitle)
-    val url: TextView = view.findViewById(R.id.rvurl)
-}
-
-private class RecyclerViewAdapter(private var items: MutableList<MutableMap<String, String>>): RecyclerView.Adapter<RecyclerViewHolder>(){
-    lateinit var listener: OnItemClickListener
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.row_websearch, parent, false)
-
-        return RecyclerViewHolder(view)
+    private fun weatherIntent(){
+        startActivity(Intent(this, WeatherActivity::class.java))
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        finish()
     }
-
-    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.title.text = items[position]["title"]
-        holder.url.text = items[position]["url"]
-
-        holder.view.setOnClickListener {
-            listener.onItemClickListener(it, position, items[position]["url"]!!)
-        }
-    }
-
-    interface OnItemClickListener{
-        fun onItemClickListener(view: View, position: Int, clickedText: String)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
 }
