@@ -19,6 +19,7 @@ import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityWeatherBind
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.service.WeatherService
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
+import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView.RecyclerViewAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -149,42 +150,4 @@ class WeatherActivity : AppCompatActivity() {
             }
         }
     }
-}
-
-private class RecyclerViewHolder(var view: View): RecyclerView.ViewHolder(view){
-    val getPrefecture: TextView = view.findViewById(R.id.get_prefecture)
-    val dateLabel: TextView = view.findViewById(R.id.dateLabel)
-    val telop : TextView = view.findViewById(R.id.today_telop)
-    val max: TextView = view.findViewById(R.id.today_max)
-    val min: TextView = view.findViewById(R.id.today_min)
-    val describe: TextView = view.findViewById(R.id.weather_describe)
-}
-
-private class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): RecyclerView.Adapter<RecyclerViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.row, parent, false)
-
-        return RecyclerViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.getPrefecture.text = items[position]["prefecture"]
-        holder.dateLabel.text = items[position]["dateLabel"]
-        holder.telop.text = items[position]["telop"]
-        holder.max.text = items[position]["max"]
-        holder.min.text = items[position]["min"]
-        val describe = items[position]["describe"]
-        if (!describe.isNullOrBlank()){
-            holder.describe.text = describe
-        }else{
-            holder.describe.layoutParams.height = 300
-            holder.describe.text = ""
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
 }
