@@ -115,14 +115,8 @@ class WebSearchViewModel: ViewModel() {
         }
     }
 
-    fun word(): MutableLiveData<String>{
-        return _word
-    }
     fun value(): MutableLiveData<MutableList<Value>>{
         return _value
-    }
-    fun setData(binding: ActivityMainBinding){
-        _word.value = binding.searchConditions3Edit.text.toString()
     }
 
     init {

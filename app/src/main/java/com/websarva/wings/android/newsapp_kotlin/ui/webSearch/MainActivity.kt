@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
@@ -105,9 +106,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
         })
 
         binding.executeButton.setOnClickListener {
-            viewModel.setData(binding)
-            Log.d("test", viewModel.word().value!!)
-            if (viewModel.word().value.isNullOrBlank()){
+            val edWord = Editable.Factory.getInstance().newEditable(binding.searchConditions3Edit.text)
+            if (edWord.toString().isBlank()){
                 val show: String = when(outputLang){
                     "NewsApp_Kotlin" -> "No search term entered"
                     "新闻应用_Kotlin" -> "没有输入搜索词"
@@ -121,9 +121,10 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 progressBar.visibility = View.VISIBLE
                 progressBar.progress = 0
 
-                val get = serviceSearch.getRawRequestForSearch(viewModel.word().value!!)
+                val get = serviceSearch.getRawRequestForSearch(edWord.toString())
                 viewModel.receiveSearchDataGet(get, outputLang, progressBar)
             }
+            edWord.clear()
         }
     }
 
