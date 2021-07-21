@@ -1,5 +1,7 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.webSearch
 
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +14,10 @@ import android.widget.SimpleAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.DialogFragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +46,23 @@ class MainActivity : AppCompatActivity(), DialogLister {
     private val serviceSearch = retrofitSearch.create(SearchService::class.java)
 
     private lateinit var url: String
+
+    override fun onStart() {
+        super.onStart()
+
+        // NightMode
+        val mUiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        var systemThemeMode = false
+        if (mUiManager.nightMode == UiModeManager.MODE_NIGHT_YES){
+            systemThemeMode = true
+        }
+        val preference = PreferenceManager.getDefaultSharedPreferences(this)
+        if (preference.getBoolean("nightPreference", systemThemeMode)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
