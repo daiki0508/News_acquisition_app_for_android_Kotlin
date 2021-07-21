@@ -14,6 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityTweetBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.net.MalformedURLException
+import java.net.URL
 
 class TweetActivity : AppCompatActivity(), TextWatcher {
     private lateinit var binding: ActivityTweetBinding
@@ -31,6 +33,10 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
 
         val url = intent.getStringExtra("url")
         Log.d("test", url.toString())
+        if (!URL(url).protocol.equals("https")){
+            throw MalformedURLException("Invalid Protocol")
+        }
+
         maxLength = 140 - url?.length!!
         val filter = InputFilter.LengthFilter(maxLength)
         binding.editTextShareMessage.filters = arrayOf(filter)
@@ -77,6 +83,6 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(p0: Editable) {
-        viewModel.setLimit(maxLength - edComment.toString().length)
+        viewModel.setLimit(maxLength - p0.toString().length)
     }
 }

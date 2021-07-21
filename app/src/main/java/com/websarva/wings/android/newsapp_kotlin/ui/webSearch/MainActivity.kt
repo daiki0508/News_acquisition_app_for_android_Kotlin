@@ -34,6 +34,8 @@ import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView.Recyc
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.MalformedURLException
+import java.net.URL
 
 class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding
@@ -133,9 +135,9 @@ class MainActivity : AppCompatActivity(), DialogLister {
             val edWord = Editable.Factory.getInstance().newEditable(binding.searchConditions3Edit.text)
             if (edWord.toString().isBlank()){
                 val show: String = when(outputLang){
-                    "NewsApp_Kotlin" -> "No search term entered"
-                    "新闻应用_Kotlin" -> "没有输入搜索词"
-                    "뉴스 애플 리케이션_Kotlin" -> "검색어가 입력되어 있지 않습니다"
+                    "NewsApp" -> "No search term entered"
+                    "新闻应用" -> "没有输入搜索词"
+                    "뉴스 애플 리케이션" -> "검색어가 입력되어 있지 않습니다"
                     "Приложение новостей" -> "Поисковый запрос не введен"
                     else -> "検索用語が入力されていません"
                 }
@@ -176,6 +178,9 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
     override fun onDialogFlagReceive(dialog: DialogFragment, flag: Boolean) {
         if (flag){
+            if (!URL(url).protocol.equals("https")){
+                throw MalformedURLException("Invalid Protocol")
+            }
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }else{
             Intent(this, TweetActivity::class.java).apply {
