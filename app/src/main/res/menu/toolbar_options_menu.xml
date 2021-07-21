@@ -13,10 +13,4 @@
         android:title="@string/WeatherScreen"
         android:icon="@drawable/ic_baseline_wb_sunny_24"
         app:showAsAction="ifRoom|withText" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/app_settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        app:showAsAction="ifRoom|withText" />
 </menu>

@@ -52,6 +52,7 @@ class WeatherActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.menu_webSearch -> webSearchIntent()
                 R.id.menu_settings -> CommonClass(null).settingsIntent(this)
+                R.id.menu_licenses -> CommonClass(null).licenseIntent(this)
             }
 
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -114,7 +115,6 @@ class WeatherActivity : AppCompatActivity() {
         var returnVal = true
         when(item.itemId){
             R.id.action_webSearch -> webSearchIntent()
-            R.id.action_settings -> CommonClass(null).settingsIntent(this)
             else -> returnVal = super.onOptionsItemSelected(item)
         }
         return returnVal
