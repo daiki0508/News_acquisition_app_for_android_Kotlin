@@ -20,6 +20,7 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
     private val viewModel: TweetViewModel by viewModel()
 
     private var maxLength: Int = 0
+    private lateinit var edComment: Editable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,8 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
         maxLength = 140 - url?.length!!
         val filter = InputFilter.LengthFilter(maxLength)
         binding.editTextShareMessage.filters = arrayOf(filter)
-        viewModel.setLimit(maxLength - viewModel.edit().value!!.length)
+        edComment = Editable.Factory.getInstance().newEditable(binding.editTextShareMessage.text)
+        viewModel.setLimit(maxLength - edComment.toString().length)
 
         binding.editTextShareMessage.addTextChangedListener(this)
 
@@ -42,10 +44,9 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
         })
 
         binding.TweetButton.setOnClickListener {
-            viewModel.setData(binding.editTextShareMessage.text.toString())
 
             Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("twitter://post?message=${viewModel.edit().value!!.htmlEncode()}$url")
+                data = Uri.parse("twitter://post?message=${edComment.toString().htmlEncode()}$url")
                 try {
                     startActivity(this)
                 }catch (e: ActivityNotFoundException){
@@ -62,6 +63,8 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
                         }
                         show()
                     }
+                }finally {
+                    edComment.clear()
                 }
             }
         }
@@ -74,7 +77,6 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(p0: Editable) {
-        viewModel.setData(p0.toString())
-        viewModel.setLimit(maxLength - viewModel.edit().value!!.length)
+        viewModel.setLimit(maxLength - edComment.toString().length)
     }
 }

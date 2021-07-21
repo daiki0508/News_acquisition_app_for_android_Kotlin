@@ -24,9 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class WebSearchViewModel: ViewModel() {
     private val serviceShortUrl = MainActivity().retrofitSearch.create(ShortUrlService::class.java)
 
-    private val _word = MutableLiveData<String>().apply {
-        MutableLiveData<String>()
-    }
     private val _value = MutableLiveData<MutableList<Value>>().apply {
         MutableLiveData<MutableList<Value>>()
     }
@@ -120,7 +117,6 @@ class WebSearchViewModel: ViewModel() {
     }
 
     init {
-        _word.value = ""
         _value.value = mutableListOf()
     }
 }
