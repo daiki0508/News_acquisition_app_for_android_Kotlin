@@ -93,6 +93,8 @@
     <string name="max_temperature">最高気温：</string>
     <string name="min_temperature">最低気温：</string>
     <string name="today_min">不明</string>
+    <string name="wind">風向き：</string>
+    <string name="wave">波の高さ：</string>
 
     <string name="other">その他</string>
     <string name="app_settings">アプリ設定</string>

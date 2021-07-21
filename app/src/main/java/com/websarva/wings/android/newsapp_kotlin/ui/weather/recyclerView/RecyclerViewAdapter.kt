@@ -19,11 +19,13 @@ class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): 
         holder.telop.text = items[position]["telop"]
         holder.max.text = items[position]["max"]
         holder.min.text = items[position]["min"]
+        holder.wind.text = items[position]["wind"]
+        holder.wave.text = items[position]["wave"]
         val describe = items[position]["describe"]
         if (!describe.isNullOrBlank()){
             holder.describe.text = describe
         }else{
-            holder.describe.layoutParams.height = 300
+            holder.describe.layoutParams.height = 250
             holder.describe.text = ""
         }
     }

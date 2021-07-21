@@ -11,5 +11,7 @@ class RecyclerViewHolder(var view: View): RecyclerView.ViewHolder(view){
     val telop : TextView = view.findViewById(R.id.today_telop)
     val max: TextView = view.findViewById(R.id.today_max)
     val min: TextView = view.findViewById(R.id.today_min)
+    val wind: TextView = view.findViewById(R.id.wind)
+    val wave: TextView = view.findViewById(R.id.wave)
     val describe: TextView = view.findViewById(R.id.weather_describe)
 }

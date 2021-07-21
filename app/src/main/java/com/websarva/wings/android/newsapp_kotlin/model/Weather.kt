@@ -13,7 +13,13 @@ data class Description(
 data class Forecasts(
     val dateLabel: String,
     var telop: String,
+    var detail: Detail,
     val temperature: Temperature,
+)
+
+data class Detail(
+    var wind: String? = "不明",
+    var wave: String? = "不明"
 )
 
 data class Temperature(

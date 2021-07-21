@@ -93,6 +93,8 @@
     <string name="max_temperature">Max：</string>
     <string name="min_temperature">Min：</string>
     <string name="today_min">UnKnown</string>
+    <string name="wind">Wind：</string>
+    <string name="wave">Wave：</string>
 
     <string name="other">Other</string>
     <string name="app_settings">App Settings</string>

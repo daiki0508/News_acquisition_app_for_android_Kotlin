@@ -63,6 +63,7 @@ class WeatherActivity : AppCompatActivity() {
 
         val progressBar = binding.progressbar
         progressBar.visibility = View.GONE
+        progressBar.max = 100
 
         var bitMap: Bitmap
         viewModel.weatherList().observe(this, {
