@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.websarva.wings.android.newsapp_kotlin.CommonClass
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityWeatherBinding
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
@@ -50,6 +51,7 @@ class WeatherActivity : AppCompatActivity() {
         binding.navigationView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_webSearch -> webSearchIntent()
+                R.id.menu_settings -> CommonClass(null).settingsIntent(this)
             }
 
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -111,9 +113,8 @@ class WeatherActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var returnVal = true
         when(item.itemId){
-            R.id.action_webSearch -> {
-                webSearchIntent()
-            }
+            R.id.action_webSearch -> webSearchIntent()
+            R.id.action_settings -> CommonClass(null).settingsIntent(this)
             else -> returnVal = super.onOptionsItemSelected(item)
         }
         return returnVal

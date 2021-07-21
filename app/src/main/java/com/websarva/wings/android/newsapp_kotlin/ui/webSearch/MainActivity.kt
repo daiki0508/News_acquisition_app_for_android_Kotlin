@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.websarva.wings.android.newsapp_kotlin.CommonClass
 import com.websarva.wings.android.newsapp_kotlin.DialogLister
 import com.websarva.wings.android.newsapp_kotlin.OnItemClickListener
 import com.websarva.wings.android.newsapp_kotlin.R
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
         binding.navigationView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_weather -> weatherIntent()
+                R.id.menu_settings -> CommonClass(null).settingsIntent(this)
             }
 
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -144,9 +146,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var returnVal = true
         when(item.itemId){
-            R.id.action_weather -> {
-                weatherIntent()
-            }
+            R.id.action_weather -> weatherIntent()
+            R.id.action_settings -> CommonClass(null).settingsIntent(this)
             else -> returnVal = super.onOptionsItemSelected(item)
         }
         return returnVal

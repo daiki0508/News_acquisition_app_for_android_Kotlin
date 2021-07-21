@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:icon="@mipmap/ic_launcher"
+        app:key="nightPreference"
+        app:summary="@string/summary_nightMode"
+        app:title="@string/title_nightMode" />
+
+</PreferenceScreen>

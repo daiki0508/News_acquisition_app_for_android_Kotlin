@@ -1,6 +1,9 @@
 package com.websarva.wings.android.newsapp_kotlin
 
+import android.app.Activity
+import android.content.Intent
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
+import com.websarva.wings.android.newsapp_kotlin.ui.settings.SettingsActivity
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,4 +21,11 @@ class CommonClass(outputLang: String?){
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
     val serviceTranslate: TranslateService = retrofitTranslate.create(TranslateService::class.java)
+
+    fun settingsIntent(activity: Activity){
+        activity.let {
+            it.startActivity(Intent(it, SettingsActivity::class.java))
+            it.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+    }
 }
