@@ -18,8 +18,9 @@ class LicenseActivity : AppCompatActivity() {
         webview.let {
             it.settings.allowFileAccess = false
             it.settings.allowContentAccess = false
+            it.settings.javaScriptEnabled = false
 
-            it.loadUrl("")
+            it.loadUrl("file:///android_asset/licenses.html")
         }
     }
 }
