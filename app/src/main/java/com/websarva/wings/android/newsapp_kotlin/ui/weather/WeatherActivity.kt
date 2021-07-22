@@ -25,6 +25,7 @@ import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.service.WeatherService
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.weather.recyclerView.RecyclerViewAdapter
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
@@ -35,16 +36,22 @@ class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
     private val viewModel:  WeatherViewModel by viewModel()
 
-    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, session ->
-        if (!s.equals(session.peerHost)){
-            throw SSLPeerUnverifiedException("Invalid Hostname")
+    private val certificatePinner = CertificatePinner.Builder().apply {
+        add("weather.tsukumijima.net","sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
+    }.build()
+    private val okHttpBuilder = OkHttpClient.Builder().apply {
+        certificatePinner(certificatePinner)
+        hostnameVerifier { s, sslSession ->
+            if (!s.equals(sslSession.peerHost)) {
+                throw SSLPeerUnverifiedException("Invalid Hostname")
+            }
+            return@hostnameVerifier true
         }
-        return@hostnameVerifier true
     }.build()
     private val retrofit = Retrofit.Builder().apply {
-        client(okHttpClient)
+        client(okHttpBuilder)
         baseUrl("https://weather.tsukumijima.net/api/")
-            .addConverterFactory(GsonConverterFactory.create())
+        addConverterFactory(GsonConverterFactory.create())
     }.build()
     private val service = retrofit.create(WeatherService::class.java)
 

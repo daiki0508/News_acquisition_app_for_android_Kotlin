@@ -6,6 +6,7 @@ import android.util.Log
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.ui.license.LicenseActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.settings.SettingsActivity
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,16 +21,23 @@ class CommonClass(outputLang: String?){
         else -> "en"
     }
 
-    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, session ->
-        if (!s.equals(session.peerHost)){
-            throw SSLPeerUnverifiedException("Invalid Hostname")
+    private val certificatePinner = CertificatePinner.Builder().apply {
+        add("script.google.com", "sha256/glbBfseqsU1YNZ88LPRcV1X3wkwrtKiFvCONZiMdxbc=")
+        add("script.googleusercontent.com", "sha256/wHidWBJ3G2vSPVXbm/csvf1rOza5bctUvEOrsf1+1Qw=")
+    }.build()
+    private val okHttpClient = OkHttpClient.Builder().apply {
+        certificatePinner(certificatePinner)
+        hostnameVerifier { s, sslSession ->
+            if (!s.equals(sslSession.peerHost)){
+                throw SSLPeerUnverifiedException("Invalid Hostname")
+            }
+            return@hostnameVerifier true
         }
-        return@hostnameVerifier true
     }.build()
     private val retrofitTranslate: Retrofit = Retrofit.Builder().apply {
         client(okHttpClient)
         baseUrl("https://script.google.com/macros/s/AKfycbzZtvOvf14TaMdRIYzocRcf3mktzGgXvlFvyczo/")
-            .addConverterFactory(GsonConverterFactory.create())
+        addConverterFactory(GsonConverterFactory.create())
     }.build()
     val serviceTranslate: TranslateService = retrofitTranslate.create(TranslateService::class.java)
 

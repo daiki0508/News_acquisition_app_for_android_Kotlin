@@ -52,6 +52,8 @@ class WeatherViewModel: ViewModel() {
                     it.forecasts[0].detail.wave = "不明"
                     it.forecasts[1].detail.wave = "不明"
                     it.forecasts[2].detail.wave = "不明"
+                }else{
+                    it.forecasts[2].detail.wave = "不明"
                 }
                 when {
                     Regex("^晴").containsMatchIn(it.forecasts[0].telop) -> _imageFlag.value = 0
@@ -130,6 +132,7 @@ class WeatherViewModel: ViewModel() {
                 val get = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params.toMap())
                 val responseBody = translateDataBackGroundRunner(get)
                 responseBody.body()?.let {
+                    Log.d("test", "$i : ${it.text}")
                     when (i) {
                         0 -> weather.location.prefecture = it.text
                         1 -> weather.forecasts[0].telop = it.text
