@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WebSearchViewModel by viewModel()
 
-    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, _ ->
-        if (!s.equals("daiki0508-sakura-vps-server.cf")){
+    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, session ->
+        if (!s.equals(session.peerHost)){
             throw SSLPeerUnverifiedException("Invalid Hostname")
         }
         return@hostnameVerifier true

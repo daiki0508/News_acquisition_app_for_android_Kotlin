@@ -35,8 +35,8 @@ class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
     private val viewModel:  WeatherViewModel by viewModel()
 
-    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, _ ->
-        if (!s.equals("weather.tsukumijima.net")){
+    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, session ->
+        if (!s.equals(session.peerHost)){
             throw SSLPeerUnverifiedException("Invalid Hostname")
         }
         return@hostnameVerifier true
@@ -159,19 +159,19 @@ class WeatherActivity : AppCompatActivity() {
 
     private fun cityCode(selected_id: Long): String {
         return when (selected_id.toInt()) {
-            in 1..9 -> {
+            in 1..8 -> {
                 "0${selected_id + 1}0010"
             }
-            in 10..19 -> {
+            in 9..18 -> {
                 "${selected_id + 1}0010"
             }
-            in 20..29 -> {
+            in 19..28 -> {
                 "${selected_id + 1}0010"
             }
-            in 30..39 -> {
+            in 29..38 -> {
                 "${selected_id + 1}0010"
             }
-            in 40..45 -> {
+            in 39..45 -> {
                 "${selected_id + 1}0010"
             }
             46 -> {

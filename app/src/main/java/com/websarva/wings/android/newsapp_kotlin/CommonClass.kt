@@ -20,8 +20,8 @@ class CommonClass(outputLang: String?){
         else -> "en"
     }
 
-    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, _ ->
-        if (!s.equals("script.google.com") && !s.equals("script.googleusercontent.com")){
+    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, session ->
+        if (!s.equals(session.peerHost)){
             throw SSLPeerUnverifiedException("Invalid Hostname")
         }
         return@hostnameVerifier true

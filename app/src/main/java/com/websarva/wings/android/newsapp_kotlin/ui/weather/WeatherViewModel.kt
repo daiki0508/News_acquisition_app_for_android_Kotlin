@@ -48,7 +48,9 @@ class WeatherViewModel: ViewModel() {
                 if (it.forecasts[2].detail.wind.isNullOrBlank()){
                     it.forecasts[2].detail.wind = "不明"
                 }
-                if (it.forecasts[2].detail.wave.isNullOrBlank()){
+                if (it.forecasts[0].detail.wave.isNullOrBlank()){
+                    it.forecasts[0].detail.wave = "不明"
+                    it.forecasts[1].detail.wave = "不明"
                     it.forecasts[2].detail.wave = "不明"
                 }
                 when {
