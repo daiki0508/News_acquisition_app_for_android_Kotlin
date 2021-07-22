@@ -31,17 +31,26 @@ import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.ui.tweet.TweetActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.weather.WeatherActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView.RecyclerViewAdapter
+import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.MalformedURLException
 import java.net.URL
+import javax.net.ssl.SSLPeerUnverifiedException
 
 class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WebSearchViewModel by viewModel()
 
+    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, _ ->
+        if (!s.equals("daiki0508-sakura-vps-server.cf")){
+            throw SSLPeerUnverifiedException("Invalid Hostname")
+        }
+        return@hostnameVerifier true
+    }.build()
     val retrofitSearch: Retrofit = Retrofit.Builder().apply {
+        client(okHttpClient)
         baseUrl("https://daiki0508-sakura-vps-server.cf/")
             .addConverterFactory(GsonConverterFactory.create())
     }.build()

@@ -25,15 +25,24 @@ import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.service.WeatherService
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.weather.recyclerView.RecyclerViewAdapter
+import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.net.ssl.SSLPeerUnverifiedException
 
 class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
     private val viewModel:  WeatherViewModel by viewModel()
 
+    private val okHttpClient = OkHttpClient.Builder().hostnameVerifier { s, _ ->
+        if (!s.equals("weather.tsukumijima.net")){
+            throw SSLPeerUnverifiedException("Invalid Hostname")
+        }
+        return@hostnameVerifier true
+    }.build()
     private val retrofit = Retrofit.Builder().apply {
+        client(okHttpClient)
         baseUrl("https://weather.tsukumijima.net/api/")
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
