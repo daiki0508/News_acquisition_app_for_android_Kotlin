@@ -5,36 +5,63 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:id="@+id/cardView"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp">
 
-        <TextView
-            android:id="@+id/rvtitle"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.45"
-            android:text="test"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
 
-        <ImageView
-            android:id="@+id/rvimage"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.55"
-            android:scaleType="fitCenter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rvtitle"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/rvurl"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="test"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/rvtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="test"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/rvurl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="test"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/rvimage"
+                    android:layout_width="110dp"
+                    android:layout_height="130dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_launcher_background" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

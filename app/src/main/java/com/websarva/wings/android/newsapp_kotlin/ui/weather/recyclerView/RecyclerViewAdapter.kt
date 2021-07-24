@@ -12,7 +12,7 @@ import coil.loadAny
 import coil.request.ImageRequest
 import com.websarva.wings.android.newsapp_kotlin.R
 
-class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>, context: Context): RecyclerView.Adapter<RecyclerViewHolder>(){
+class RecyclerViewAdapter(private var items: MutableList<MutableMap<String, String?>>, context: Context): RecyclerView.Adapter<RecyclerViewHolder>(){
     private var context: Context? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
