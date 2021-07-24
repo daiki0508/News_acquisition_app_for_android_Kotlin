@@ -112,7 +112,7 @@ class WeatherActivity : AppCompatActivity() {
                 }
                 binding.ivWeather.setImageBitmap(bitMap)
 
-                val adapter = RecyclerViewAdapter(viewModel.weatherList().value!!)
+                val adapter = RecyclerViewAdapter(viewModel.weatherList().value!!, this)
                 binding.weatherList.adapter = adapter
                 binding.weatherList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
                 adapter.notifyDataSetChanged()

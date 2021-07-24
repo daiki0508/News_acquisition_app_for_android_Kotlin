@@ -60,7 +60,7 @@ class WeatherViewModel: ViewModel() {
                     Regex("^曇").containsMatchIn(it.forecasts[0].telop) -> _imageFlag.value = 1
                     else -> _imageFlag.value = 2
                 }
-                progressBar.progress = 25
+                progressBar.progress = 20
                 receiveTranslateData(it, outputLang, progressBar)
             }
         }
@@ -79,43 +79,49 @@ class WeatherViewModel: ViewModel() {
     private suspend fun receiveTranslateData(weather: Weather,outputLang: String, progressBar: ProgressBar){
         val code = CommonClass(outputLang).code
         if (code != "ja"){
-            for (i in 0..12){
+            for (i in 0..14){
                 val params: MutableMap<String, String?> = hashMapOf()
                 when(i){
                     0 -> params += hashMapOf(
-                        "text" to weather.location.prefecture
+                        "text" to weather.forecasts[0].dateLabel
                     )
                     1 -> params += hashMapOf(
-                        "text" to weather.forecasts[0].telop
+                        "text" to weather.forecasts[1].dateLabel
                     )
                     2 -> params += hashMapOf(
-                        "text" to weather.forecasts[1].telop
+                        "text" to weather.forecasts[2].dateLabel
                     )
                     3 -> params += hashMapOf(
-                        "text" to weather.forecasts[2].telop
+                        "text" to weather.forecasts[0].telop
                     )
                     4 -> params += hashMapOf(
-                        "text" to weather.forecasts[0].temperature.max.celsius
+                        "text" to weather.forecasts[1].telop
                     )
                     5 -> params += hashMapOf(
-                        "text" to weather.forecasts[0].temperature.min.celsius
+                        "text" to weather.forecasts[2].telop
                     )
                     6 -> params += hashMapOf(
-                        "text" to weather.forecasts[0].detail.wind
+                        "text" to weather.forecasts[0].temperature.max.celsius
                     )
                     7 -> params += hashMapOf(
-                        "text" to weather.forecasts[0].detail.wave
+                        "text" to weather.forecasts[0].temperature.min.celsius
                     )
                     8 -> params += hashMapOf(
-                        "text" to weather.forecasts[1].detail.wind
+                        "text" to weather.forecasts[0].detail.wind
                     )
                     9 -> params += hashMapOf(
-                        "text" to weather.forecasts[1].detail.wave
+                        "text" to weather.forecasts[0].detail.wave
                     )
                     10 -> params += hashMapOf(
+                        "text" to weather.forecasts[1].detail.wind
+                    )
+                    11-> params += hashMapOf(
+                        "text" to weather.forecasts[1].detail.wave
+                    )
+                    12 -> params += hashMapOf(
                         "text" to weather.forecasts[2].detail.wind
                     )
-                    11 -> params += hashMapOf(
+                    13 -> params += hashMapOf(
                         "text" to weather.forecasts[2].detail.wave
                     )
                     else -> params += hashMapOf(
@@ -132,27 +138,29 @@ class WeatherViewModel: ViewModel() {
                 val get = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params.toMap())
                 val responseBody = translateDataBackGroundRunner(get)
                 responseBody.body()?.let {
-                    Log.d("test", "$i : ${it.text}")
+                    //Log.d("test", "$i : ${it.text}")
                     when (i) {
-                        0 -> weather.location.prefecture = it.text
-                        1 -> weather.forecasts[0].telop = it.text
-                        2 -> weather.forecasts[1].telop = it.text
-                        3 -> weather.forecasts[2].telop = it.text
-                        4 -> weather.forecasts[0].temperature.max.celsius = it.text
-                        5 -> weather.forecasts[0].temperature.min.celsius = it.text
-                        6 -> weather.forecasts[0].detail.wind = it.text
-                        7 -> weather.forecasts[0].detail.wave = it.text
-                        8 -> weather.forecasts[1].detail.wind = it.text
-                        9 -> weather.forecasts[1].detail.wave = it.text
-                        10 -> weather.forecasts[2].detail.wind = it.text
-                        11 -> weather.forecasts[2].detail.wave = it.text
+                        0 -> weather.forecasts[0].dateLabel = it.text
+                        1 -> weather.forecasts[1].dateLabel = it.text
+                        2 -> weather.forecasts[2].dateLabel = it.text
+                        3 -> weather.forecasts[0].telop = it.text
+                        4 -> weather.forecasts[1].telop = it.text
+                        5 -> weather.forecasts[2].telop = it.text
+                        6 -> weather.forecasts[0].temperature.max.celsius = it.text
+                        7 -> weather.forecasts[0].temperature.min.celsius = it.text
+                        8 -> weather.forecasts[0].detail.wind = it.text
+                        9 -> weather.forecasts[0].detail.wave = it.text
+                        10 -> weather.forecasts[1].detail.wind = it.text
+                        11 -> weather.forecasts[1].detail.wave = it.text
+                        12 -> weather.forecasts[2].detail.wind = it.text
+                        13 -> weather.forecasts[2].detail.wave = it.text
                         else -> weather.description.text = it.text
                     }
                 }
                 progressBar.progress += 3
             }
         }else{
-            progressBar.progress = 86
+            progressBar.progress = 90
         }
         setWeatherData(weather, progressBar)
     }
@@ -187,8 +195,9 @@ class WeatherViewModel: ViewModel() {
                     )
                 }
             }
+            Log.d("test", it.forecasts[i].image.url)
             weather += mutableMapOf(
-                "prefecture" to it.location.prefecture,
+                "image" to it.forecasts[i].image.url,
                 "dateLabel" to "(${it.forecasts[i].dateLabel}):",
                 "telop" to it.forecasts[i].telop,
                 "max" to "${it.forecasts[i].temperature.max.celsius}℃",

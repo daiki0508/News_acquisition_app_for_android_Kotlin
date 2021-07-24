@@ -1,11 +1,20 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.weather.recyclerView
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.load
+import coil.loadAny
+import coil.request.ImageRequest
 import com.websarva.wings.android.newsapp_kotlin.R
 
-class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): RecyclerView.Adapter<RecyclerViewHolder>(){
+class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>, context: Context): RecyclerView.Adapter<RecyclerViewHolder>(){
+    private var context: Context? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.row_weather, parent, false)
@@ -14,7 +23,13 @@ class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): 
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.getPrefecture.text = items[position]["prefecture"]
+        val imageLoader = ImageLoader.Builder(this.context!!)
+            .componentRegistry { add(SvgDecoder(context!!)) }
+            .build()
+
+        holder.ivWeather.load(items[position]["image"], imageLoader){
+            error(R.drawable.no_image)
+        }
         holder.dateLabel.text = items[position]["dateLabel"]
         holder.telop.text = items[position]["telop"]
         holder.max.text = items[position]["max"]
@@ -25,7 +40,7 @@ class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): 
         if (!describe.isNullOrBlank()){
             holder.describe.text = describe
         }else{
-            holder.describe.layoutParams.height = 250
+            holder.describe.layoutParams.height = 50
             holder.describe.text = ""
         }
     }
@@ -34,4 +49,7 @@ class RecyclerViewAdapter(var items: MutableList<MutableMap<String, String?>>): 
         return items.size
     }
 
+    init {
+        this.context = context
+    }
 }

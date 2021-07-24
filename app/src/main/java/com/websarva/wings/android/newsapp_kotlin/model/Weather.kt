@@ -11,10 +11,11 @@ data class Description(
 )
 
 data class Forecasts(
-    val dateLabel: String,
+    var dateLabel: String,
     var telop: String,
     var detail: Detail,
     val temperature: Temperature,
+    val image: ImageView
 )
 
 data class Detail(
@@ -25,6 +26,10 @@ data class Detail(
 data class Temperature(
     var min: MinMax,
     var max: MinMax,
+)
+
+data class ImageView(
+    val url: String
 )
 
 data class MinMax(

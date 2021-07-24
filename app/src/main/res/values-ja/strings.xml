@@ -89,7 +89,7 @@
         <item>中国</item>
     </string-array>
     <string name="weather_information">お天気情報</string>
-    <string name="weather_weather">の天気</string>
+    <string name="weather_weather">天気</string>
     <string name="max_temperature">最高気温：</string>
     <string name="min_temperature">最低気温：</string>
     <string name="today_min">不明</string>
