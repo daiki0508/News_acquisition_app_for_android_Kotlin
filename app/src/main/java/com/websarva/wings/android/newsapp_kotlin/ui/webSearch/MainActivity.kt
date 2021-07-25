@@ -21,10 +21,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.websarva.wings.android.newsapp_kotlin.CommonClass
-import com.websarva.wings.android.newsapp_kotlin.DialogLister
-import com.websarva.wings.android.newsapp_kotlin.OnItemClickListener
-import com.websarva.wings.android.newsapp_kotlin.R
+import com.websarva.wings.android.newsapp_kotlin.*
 import com.websarva.wings.android.newsapp_kotlin.service.SearchService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
@@ -36,6 +33,7 @@ import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
 import javax.net.ssl.SSLPeerUnverifiedException
@@ -87,6 +85,18 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
         binding = ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(this.root)
+        }
+
+        val security = SecurityCheckClass()
+
+        if (security.rootCheck()
+            or security.checkRunningProcess(this)
+            or security.isDebuggable(this)
+            or security.detectDebugger()
+            or security.isTestKeyBuild()
+            ){
+            Log.d("test", "Root")
+            SecurityDialogFragment().show(supportFragmentManager, "securityFragment")
         }
 
         setSupportActionBar(binding.toolbar)

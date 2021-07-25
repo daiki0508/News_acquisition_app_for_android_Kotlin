@@ -100,4 +100,7 @@
     <string name="app_settings">アプリ設定</string>
     <string name="title_nightMode">ナイトモードへの切り替え</string>
     <string name="summary_nightMode">ONにするとアプリがナイトモードになります</string>
+
+    <string name="root_title">Detected</string>
+    <string name="root_message">残念ながらこのアプリはこの端末で起動できません。\n不正に起動された可能性があります。</string>
 </resources>

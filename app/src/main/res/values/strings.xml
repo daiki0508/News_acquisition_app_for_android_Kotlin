@@ -100,4 +100,7 @@
     <string name="app_settings">App Settings</string>
     <string name="title_nightMode">Switch to night mode</string>
     <string name="summary_nightMode">Turn it on to put the app in night mode</string>
+
+    <string name="root_title">Detected</string>
+    <string name="root_message">Unfortunately, this app cannot be launched on this device.\nIt may have been started illegally.</string>
 </resources>
