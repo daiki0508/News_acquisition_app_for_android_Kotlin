@@ -55,6 +55,15 @@ class SecurityCheckClass(){
         return false
     }
 
+    fun detectThreadCpuTimeNanos(): Boolean{
+        val start = Debug.threadCpuTimeNanos()
+        for (i in 0..1000000)
+            continue
+
+        val stop = Debug.threadCpuTimeNanos()
+        return stop - start >= 10000000
+    }
+
     external fun crashOnInit()
     external fun antidebug()
 }
