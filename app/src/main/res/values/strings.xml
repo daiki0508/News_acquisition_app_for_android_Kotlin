@@ -3,13 +3,7 @@
     <string name="search_conditions_text">Please enter search conditions</string>
     <string name="search_conditions1">Area</string>
     <string name="search_conditions2">Language</string>
-    <string-array name="conditions_lang">
-        <item>English</item>
-        <item>Japanese</item>
-        <item>Chinese</item>
-        <item>Korean</item>
-        <item>Russian</item>
-    </string-array>
+
     <string name="search_conditions3">Search words</string>
     <string name="execute_text">Execute Search</string>
     <string name="result_text">News List</string>
@@ -81,14 +75,7 @@
         <item>Kagoshima</item>
         <item>Okinawa</item>
     </string-array>
-    <string name="choose_language">Language</string>
-    <string-array name="use_language">
-        <item>Japanese</item>
-        <item>English</item>
-        <item>Korea</item>
-        <item>Russia</item>
-        <item>Chinese</item>
-    </string-array>
+
     <string name="weather_information">Weather information</string>
     <string name="weather_weather">Weather</string>
     <string name="max_temperature">Max：</string>

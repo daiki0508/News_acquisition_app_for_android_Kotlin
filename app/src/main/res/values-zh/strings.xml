@@ -1,0 +1,96 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">新闻应用</string>
+    <string name="search_conditions_text">请输入搜索条件</string>
+    <string name="search_conditions1">区</string>
+    <string name="search_conditions2">语言</string>
+
+    <string name="search_conditions3">搜索词</string>
+    <string name="execute_text">搜索执行</string>
+    <string name="result_text">新闻列表</string>
+    <string name="failure_text">不幸的是，没有找到指定词的搜索结果。</string>
+    <string name="dialog_title">选择</string>
+    <string-array name="select_dialog">
+        <item>在浏览器中打开</item>
+        <item>分享到Twitter</item>
+    </string-array>
+    <string name="twitter_describe">如果您有句子要发布该文章，请输入。</string>
+    <string name="tweet_btn">鸣叫</string>
+    <string name="limit_text">可输入的字符数为 %1$d</string>
+    <string name="no_tweet_app">找不到Twitter官方应用</string>
+    <string name="tweet_app_install">安装</string>
+    <string name="playStore_url" tools:ignore="ExtraTranslation" translatable="false">http://play.google.com/store/apps/details?id=com.twitter.android</string>
+
+    <string name="NewsScreen">消息</string>
+    <string name="WeatherScreen" >天气</string>
+    <string name="LicenseScreen">执照</string>
+    <string name="drawer_open">抽屉打开</string>
+    <string name="drawer_close">抽屉关闭</string>
+    <string name="weather_text_introduction">您可以获得天气信息</string>
+
+    <string-array name="prefectures">
+        <item>Hokkaido</item>
+        <item>Aomori</item>
+        <item>Iwate</item>
+        <item>Miyagi</item>
+        <item>Akita</item>
+        <item>Yamagata</item>
+        <item>Fukushima</item>
+        <item>Ibaraki</item>
+        <item>Tochigi</item>
+        <item>Gunma</item>
+        <item>Saitama</item>
+        <item>Chiba</item>
+        <item>Tokyo</item>
+        <item>Kanagawa</item>
+        <item>Niigata</item>
+        <item>Toyama</item>
+        <item>Ishikawa</item>
+        <item>Fukui</item>
+        <item>Yamanashi</item>
+        <item>Nagano</item>
+        <item>Gifu</item>
+        <item>Shizuoka</item>
+        <item>Aichi</item>
+        <item>Mie</item>
+        <item>Shiga</item>
+        <item>Kyoto</item>
+        <item>Osaka</item>
+        <item>Hyogo</item>
+        <item>Nara</item>
+        <item>Wakayama</item>
+        <item>Tottori</item>
+        <item>Shimane</item>
+        <item>Okayama</item>
+        <item>Hiroshima</item>
+        <item>Yamaguchi</item>
+        <item>Tokushima</item>
+        <item>Kagawa</item>
+        <item>Ehime</item>
+        <item>Kochi</item>
+        <item>Fukuoka</item>
+        <item>Saga</item>
+        <item>Nagasaki</item>
+        <item>Kumamoto</item>
+        <item>Oita</item>
+        <item>Miyazaki</item>
+        <item>Kagoshima</item>
+        <item>Okinawa</item>
+    </string-array>
+
+    <string name="weather_information">天气信息</string>
+    <string name="weather_weather">天气</string>
+    <string name="max_temperature">最大限度：</string>
+    <string name="min_temperature">最低限度：</string>
+    <string name="today_min">未知</string>
+
+    <string name="wind">风：</string>
+    <string name="wave">海浪：</string>
+
+    <string name="other">其他</string>
+    <string name="app_settings">应用程序设置</string>
+    <string name="title_nightMode">切换到夜间模式</string>
+    <string name="summary_nightMode">打开它以将应用程序置于夜间模式</string>
+
+    <string name="root_title">检测到</string>
+    <string name="root_message">很遗憾，此应用无法在此设备上启动。\n它可能是非法启动的。</string>
+</resources>

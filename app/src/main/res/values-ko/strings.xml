@@ -1,0 +1,97 @@
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">뉴스 애플 리케이션</string>
+    <string name="search_conditions_text">검색 조건을 입력하십시오</string>
+    <string name="search_conditions1">지역</string>
+    <string name="search_conditions2">언어</string>
+
+    <string name="search_conditions3">검색어</string>
+    <string name="execute_text">검색 실행</string>
+    <string name="result_text">뉴스 목록</string>
+    <string name="failure_text">유감스럽게도 지정된 단어에 대한 검색 결과가 없습니다.</string>
+    <string name="dialog_title">선택</string>
+    <string-array name="select_dialog">
+        <item>브라우저에서 열기</item>
+        <item>트위터에서 공유하기</item>
+    </string-array>
+    <string name="twitter_describe">기사와 함께 트윗하는 문장이 있으면 입력하십시오.</string>
+    <string name="tweet_btn">트윗하기</string>
+    <string name="limit_text">입력할 수 있는 문자 수는 %1$d입니다.</string>
+    <string name="no_tweet_app">Twitter 공식 앱을 찾을 수 없습니다</string>
+    <string name="tweet_app_install">설치</string>
+    <string name="playStore_url" translatable="false">http://play.google.com/store/apps/details?id=com.twitter.android</string>
+
+    <string name="NewsScreen">뉴스</string>
+    <string name="WeatherScreen" >날씨</string>
+    <string name="LicenseScreen">특허</string>
+    <string name="drawer_open">서랍 열기</string>
+    <string name="drawer_close">서랍 닫기</string>
+    <string name="weather_text_introduction">날씨 정보를 얻을 수 있습니다</string>
+
+    <string-array name="prefectures">
+        <item>Hokkaido</item>
+        <item>Aomori</item>
+        <item>Iwate</item>
+        <item>Miyagi</item>
+        <item>Akita</item>
+        <item>Yamagata</item>
+        <item>Fukushima</item>
+        <item>Ibaraki</item>
+        <item>Tochigi</item>
+        <item>Gunma</item>
+        <item>Saitama</item>
+        <item>Chiba</item>
+        <item>Tokyo</item>
+        <item>Kanagawa</item>
+        <item>Niigata</item>
+        <item>Toyama</item>
+        <item>Ishikawa</item>
+        <item>Fukui</item>
+        <item>Yamanashi</item>
+        <item>Nagano</item>
+        <item>Gifu</item>
+        <item>Shizuoka</item>
+        <item>Aichi</item>
+        <item>Mie</item>
+        <item>Shiga</item>
+        <item>Kyoto</item>
+        <item>Osaka</item>
+        <item>Hyogo</item>
+        <item>Nara</item>
+        <item>Wakayama</item>
+        <item>Tottori</item>
+        <item>Shimane</item>
+        <item>Okayama</item>
+        <item>Hiroshima</item>
+        <item>Yamaguchi</item>
+        <item>Tokushima</item>
+        <item>Kagawa</item>
+        <item>Ehime</item>
+        <item>Kochi</item>
+        <item>Fukuoka</item>
+        <item>Saga</item>
+        <item>Nagasaki</item>
+        <item>Kumamoto</item>
+        <item>Oita</item>
+        <item>Miyazaki</item>
+        <item>Kagoshima</item>
+        <item>Okinawa</item>
+    </string-array>
+
+    <string name="weather_information">날씨 정보</string>
+    <string name="weather_weather">날씨</string>
+    <string name="max_temperature">최대：</string>
+    <string name="min_temperature">최소：</string>
+    <string name="today_min">알 수 없는</string>
+
+    <string name="wind">바람：</string>
+    <string name="wave">파도：</string>
+
+    <string name="other">다른</string>
+    <string name="app_settings">앱 설정</string>
+    <string name="title_nightMode">야간 모드로 전환</string>
+    <string name="summary_nightMode">앱을 야간 모드로 전환하려면 켜세요.</string>
+
+    <string name="root_title">감지됨</string>
+    <string name="root_message">유감스럽게도 이 기기에서는 이 앱을 실행할 수 없습니다.\n불법으로 시작된 것일 수 있습니다.</string>
+</resources>
