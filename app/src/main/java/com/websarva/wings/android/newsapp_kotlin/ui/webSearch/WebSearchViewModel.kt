@@ -31,7 +31,28 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    fun receiveSearchDataGet(get: Call<Search>, activity: MainActivity, outputLang: String, progressBar: ProgressBar) {
+    fun receiveTransDataWordsGet(get: Call<Translate>, activity: MainActivity, code: String, progressBar: ProgressBar){
+        viewModelScope.launch {
+            val responseBody = translateDataWordsBackGroundRunner(get)
+            responseBody.body()?.let {
+                Log.d("test", it.text)
+                val getNext = MainActivity().serviceSearch.getRawRequestForSearch(it.text)
+                receiveSearchDataGet(getNext, activity, code, progressBar)
+            }
+        }
+    }
+
+    @WorkerThread
+    private suspend fun translateDataWordsBackGroundRunner(get: Call<Translate>): Response<Translate>{
+        return withContext(Dispatchers.IO){
+            val responseBody = get.execute()
+
+            responseBody
+        }
+    }
+
+    @UiThread
+    fun receiveSearchDataGet(get: Call<Search>, activity: MainActivity, code: String, progressBar: ProgressBar) {
         viewModelScope.launch {
             val responseBody = searchDataBackGroundRunner(get)
             if (responseBody.isSuccessful) {
@@ -41,7 +62,7 @@ class WebSearchViewModel: ViewModel() {
                     Log.d("test", it.value.toString())
                     if (!it.value.isNullOrEmpty()){
                         progressBar.progress = 10
-                        receiveTranslateData(it.value, outputLang, progressBar)
+                        receiveTranslateData(it.value, code, progressBar)
                     }else{
                         Toast.makeText(activity, activity.getString(R.string.failure_text), Toast.LENGTH_LONG).show()
                     }
@@ -60,9 +81,7 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    private suspend fun receiveTranslateData(value: List<Value>, outputLang: String, progressBar: ProgressBar){
-        val code = CommonClass(outputLang).code
-
+    private suspend fun receiveTranslateData(value: List<Value>, code: String, progressBar: ProgressBar){
             if (code != "en") {
                 for (i in 0..9) {
                     val params: Map<String, String> = hashMapOf(

@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
         baseUrl("https://daiki0508-sakura-vps-server.cf/")
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
-    private val serviceSearch = retrofitSearch.create(SearchService::class.java)
+    val serviceSearch = retrofitSearch.create(SearchService::class.java)
 
     private lateinit var url: String
 
@@ -174,8 +174,19 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 progressBar.visibility = View.VISIBLE
                 progressBar.progress = 0
 
-                val get = serviceSearch.getRawRequestForSearch(edWord.toString())
-                viewModel.receiveSearchDataGet(get, this, outputLang, progressBar)
+                val code = CommonClass(outputLang).code
+                if (code != "en"){
+                    val params: Map<String, String> = hashMapOf(
+                        "text" to edWord.toString(),
+                        "source" to code,
+                        "target" to "en"
+                    )
+                    val get = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params)
+                    viewModel.receiveTransDataWordsGet(get, this, code, progressBar)
+                }else{
+                    val get = serviceSearch.getRawRequestForSearch(edWord.toString())
+                    viewModel.receiveSearchDataGet(get, this, code, progressBar)
+                }
             }
             edWord.clear()
         }
