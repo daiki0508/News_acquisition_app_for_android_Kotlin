@@ -2,12 +2,14 @@ package com.websarva.wings.android.newsapp_kotlin.ui.webSearch
 
 import android.util.Log
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.websarva.wings.android.newsapp_kotlin.CommonClass
+import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.service.ShortUrlService
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
@@ -29,15 +31,20 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    fun receiveSearchDataGet(get: Call<Search>, outputLang: String, progressBar: ProgressBar) {
+    fun receiveSearchDataGet(get: Call<Search>, activity: MainActivity, outputLang: String, progressBar: ProgressBar) {
         viewModelScope.launch {
             val responseBody = searchDataBackGroundRunner(get)
             if (responseBody.isSuccessful) {
                 responseBody.body()?.let {
                     //_value.value = it.value.toMutableList()
                     Log.d("test", "called!!")
-                    progressBar.progress = 10
-                    receiveTranslateData(it.value, outputLang, progressBar)
+                    Log.d("test", it.value.toString())
+                    if (!it.value.isNullOrEmpty()){
+                        progressBar.progress = 10
+                        receiveTranslateData(it.value, outputLang, progressBar)
+                    }else{
+                        Toast.makeText(activity, activity.getString(R.string.failure_text), Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

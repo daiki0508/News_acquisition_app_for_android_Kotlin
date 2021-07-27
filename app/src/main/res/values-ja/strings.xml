@@ -13,6 +13,7 @@
     <string name="search_conditions3">検索用語</string>
     <string name="execute_text">検索</string>
     <string name="result_text">News一覧</string>
+    <string name="failure_text">残念ながら、指定したワードでは検索結果が見つかりませんでした。</string>
     <string name="dialog_title">Select</string>
     <string-array name="select_dialog">
         <item>ブラウザで開く</item>

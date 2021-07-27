@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
                 progressBar.progress = 0
 
                 val get = serviceSearch.getRawRequestForSearch(edWord.toString())
-                viewModel.receiveSearchDataGet(get, outputLang, progressBar)
+                viewModel.receiveSearchDataGet(get, this, outputLang, progressBar)
             }
             edWord.clear()
         }
