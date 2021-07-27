@@ -35,7 +35,7 @@ class WebSearchViewModel: ViewModel() {
         viewModelScope.launch {
             val responseBody = translateDataWordsBackGroundRunner(get)
             responseBody.body()?.let {
-                Log.d("test", it.text)
+                //Log.d("test", it.text)
                 val getNext = MainActivity().serviceSearch.getRawRequestForSearch(it.text)
                 receiveSearchDataGet(getNext, activity, code, progressBar)
             }
@@ -59,7 +59,7 @@ class WebSearchViewModel: ViewModel() {
                 responseBody.body()?.let {
                     //_value.value = it.value.toMutableList()
                     Log.d("test", "called!!")
-                    Log.d("test", it.value.toString())
+                    //Log.d("test", it.value.toString())
                     if (!it.value.isNullOrEmpty()){
                         progressBar.progress = 10
                         receiveTranslateData(it.value, code, progressBar)

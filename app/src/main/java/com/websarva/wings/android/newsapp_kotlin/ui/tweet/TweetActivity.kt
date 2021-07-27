@@ -32,7 +32,7 @@ class TweetActivity : AppCompatActivity(), TextWatcher {
         }
 
         val url = intent.getStringExtra("url")
-        Log.d("test", url.toString())
+        //Log.d("test", url.toString())
         if (!URL(url).protocol.equals("https")){
             throw MalformedURLException("Invalid Protocol")
         }

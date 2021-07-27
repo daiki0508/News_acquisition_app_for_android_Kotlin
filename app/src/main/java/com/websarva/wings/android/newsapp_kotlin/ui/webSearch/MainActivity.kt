@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
         baseUrl("https://daiki0508-sakura-vps-server.cf/")
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
-    val serviceSearch = retrofitSearch.create(SearchService::class.java)
+    val serviceSearch: SearchService = retrofitSearch.create(SearchService::class.java)
 
     private lateinit var url: String
 

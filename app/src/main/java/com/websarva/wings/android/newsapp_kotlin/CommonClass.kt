@@ -21,12 +21,12 @@ class CommonClass(outputLang: String?){
         else -> "en"
     }
 
-    private val certificatePinner = CertificatePinner.Builder().apply {
+    /*private val certificatePinner = CertificatePinner.Builder().apply {
         add("script.google.com", "sha256/glbBfseqsU1YNZ88LPRcV1X3wkwrtKiFvCONZiMdxbc=")
         add("script.googleusercontent.com", "sha256/wHidWBJ3G2vSPVXbm/csvf1rOza5bctUvEOrsf1+1Qw=")
-    }.build()
+    }.build()*/
     private val okHttpClient = OkHttpClient.Builder().apply {
-        certificatePinner(certificatePinner)
+        //certificatePinner(certificatePinner)
         hostnameVerifier { s, sslSession ->
             if (!s.equals(sslSession.peerHost)){
                 throw SSLPeerUnverifiedException("Invalid Hostname")
