@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
         val security = SecurityCheckClass()
 
-        /*if (security.rootCheck()
+        if (security.rootCheck()
             or security.checkRunningProcess(this)
             or security.isDebuggable(this)
             or security.detectDebugger()
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
             ){
             Log.d("test", "Root")
             SecurityDialogFragment().show(supportFragmentManager, "securityFragment")
-        }*/
+        }
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
