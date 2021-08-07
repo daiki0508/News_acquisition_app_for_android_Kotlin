@@ -1,5 +1,7 @@
 package com.websarva.wings.android.newsapp_kotlin.ui.webSearch
 
+import android.annotation.SuppressLint
+import android.text.Editable
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -14,6 +16,9 @@ import com.websarva.wings.android.newsapp_kotlin.service.ShortUrlService
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
 import com.websarva.wings.android.newsapp_kotlin.model.*
+import com.websarva.wings.android.newsapp_kotlin.repository.ShortUrlRepository
+import com.websarva.wings.android.newsapp_kotlin.repository.TranslateRepository
+import com.websarva.wings.android.newsapp_kotlin.repository.WebSearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,21 +28,24 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("BlockingMethodInNonBlockingContext")
-class WebSearchViewModel: ViewModel() {
-    private val serviceShortUrl = MainActivity().retrofitSearch.create(ShortUrlService::class.java)
-
+class WebSearchViewModel(
+    private val translateRepository: TranslateRepository,
+    private val webSearchRepository: WebSearchRepository,
+    private val shortUrlRepository: ShortUrlRepository
+): ViewModel() {
     private val _value = MutableLiveData<MutableList<Value>>().apply {
         MutableLiveData<MutableList<Value>>()
     }
 
     @UiThread
-    fun receiveTransDataWordsGet(get: Call<Translate>, activity: MainActivity, code: String, progressBar: ProgressBar){
+    fun receiveTransDataWordsGet(params: Map<String, String?>, activity: MainActivity, code: String, progressBar: ProgressBar){
+        val get = translateRepository.getRawRequestForTranslate(params)
         viewModelScope.launch {
             val responseBody = translateDataWordsBackGroundRunner(get)
             responseBody.body()?.let {
                 //Log.d("test", it.text)
-                val getNext = MainActivity().serviceSearch.getRawRequestForSearch(it.text)
-                receiveSearchDataGet(getNext, activity, code, progressBar)
+                val getNext = webSearchRepository.getRawRequestForSearch(it.text)
+                receiveSearchDataGet(getNext, activity, code, progressBar, null)
             }
         }
     }
@@ -52,11 +60,18 @@ class WebSearchViewModel: ViewModel() {
     }
 
     @UiThread
-    fun receiveSearchDataGet(get: Call<Search>, activity: MainActivity, code: String, progressBar: ProgressBar) {
+    fun receiveSearchDataGet(get: Call<Search>?, activity: MainActivity, code: String, progressBar: ProgressBar, edWord: Editable?) {
+        var responseBody: Response<Search>?
         viewModelScope.launch {
-            val responseBody = searchDataBackGroundRunner(get)
-            if (responseBody.isSuccessful) {
-                responseBody.body()?.let {
+            responseBody = if (get == null){
+                val get2 =  webSearchRepository.getRawRequestForSearch(edWord.toString())
+                edWord?.clear()
+                searchDataBackGroundRunner(get2)
+            }else{
+                searchDataBackGroundRunner(get)
+            }
+            if (responseBody!!.isSuccessful) {
+                responseBody!!.body()?.let {
                     //_value.value = it.value.toMutableList()
                     Log.d("test", "called!!")
                     //Log.d("test", it.value.toString())
@@ -89,7 +104,7 @@ class WebSearchViewModel: ViewModel() {
                         "source" to "en",
                         "target" to code
                     )
-                    val getTranslate = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params)
+                    val getTranslate = translateRepository.getRawRequestForTranslate(params)
                     val responseBodyTranslate =
                         translateDataBackGroundRunner(getTranslate)
                     responseBodyTranslate.body()?.let {
@@ -118,7 +133,7 @@ class WebSearchViewModel: ViewModel() {
     private suspend fun receiveShortUrl(value: List<Value>, progressBar: ProgressBar){
             for (i in 0..9){
                 Log.d("test", "UrlCalled!!")
-                val post = serviceShortUrl.postRawRequestForShortUrl(value[i].url)
+                val post = shortUrlRepository.postRawRequestForShortUrl(value[i].url)
                 Log.d("test2", "UrlCalled!!")
                 val responseBody = shortUrlBackGroundRunner(post)
                 responseBody.body()?.let {

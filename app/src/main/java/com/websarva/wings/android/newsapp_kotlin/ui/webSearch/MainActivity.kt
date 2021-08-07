@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WebSearchViewModel by viewModel()
 
-    private val certificatePinner = CertificatePinner.Builder().apply {
+    /*private val certificatePinner = CertificatePinner.Builder().apply {
         add("daiki0508-sakura-vps-server.cf","sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
     }.build()
     private val okHttpClient = OkHttpClient.Builder().apply {
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
         baseUrl("https://daiki0508-sakura-vps-server.cf/")
             .addConverterFactory(GsonConverterFactory.create())
     }.build()
-    val serviceSearch: SearchService = retrofitSearch.create(SearchService::class.java)
+    val serviceSearch: SearchService = retrofitSearch.create(SearchService::class.java)*/
 
     private lateinit var url: String
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
 
         val security = SecurityCheckClass()
 
-        if (security.rootCheck()
+        /*if (security.rootCheck()
             or security.checkRunningProcess(this)
             or security.isDebuggable(this)
             or security.detectDebugger()
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), DialogLister {
             ){
             Log.d("test", "Root")
             SecurityDialogFragment().show(supportFragmentManager, "securityFragment")
-        }
+        }*/
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -181,11 +181,9 @@ class MainActivity : AppCompatActivity(), DialogLister {
                         "source" to code,
                         "target" to "en"
                     )
-                    val get = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params)
-                    viewModel.receiveTransDataWordsGet(get, this, code, progressBar)
+                    viewModel.receiveTransDataWordsGet(params,this, code, progressBar)
                 }else{
-                    val get = serviceSearch.getRawRequestForSearch(edWord.toString())
-                    viewModel.receiveSearchDataGet(get, this, code, progressBar)
+                    viewModel.receiveSearchDataGet(null,this, code, progressBar, edWord)
                 }
             }
             edWord.clear()
