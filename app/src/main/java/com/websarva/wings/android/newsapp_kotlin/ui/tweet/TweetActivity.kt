@@ -13,6 +13,7 @@ import androidx.core.text.htmlEncode
 import com.google.android.material.snackbar.Snackbar
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityTweetBinding
+import com.websarva.wings.android.newsapp_kotlin.viewmodel.TweetViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.MalformedURLException
 import java.net.URL

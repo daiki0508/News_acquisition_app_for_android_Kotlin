@@ -1,4 +1,4 @@
-package com.websarva.wings.android.newsapp_kotlin.ui.weather
+package com.websarva.wings.android.newsapp_kotlin.viewmodel
 
 import android.util.Log
 import android.widget.ProgressBar
@@ -12,15 +12,11 @@ import com.websarva.wings.android.newsapp_kotlin.model.Translate
 import com.websarva.wings.android.newsapp_kotlin.model.Weather
 import com.websarva.wings.android.newsapp_kotlin.repository.TranslateRepository
 import com.websarva.wings.android.newsapp_kotlin.repository.WeatherRepository
-import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
-import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WeatherViewModel(

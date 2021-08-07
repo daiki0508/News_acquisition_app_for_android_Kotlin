@@ -1,6 +1,5 @@
-package com.websarva.wings.android.newsapp_kotlin.ui.webSearch
+package com.websarva.wings.android.newsapp_kotlin.viewmodel
 
-import android.annotation.SuppressLint
 import android.text.Editable
 import android.util.Log
 import android.widget.ProgressBar
@@ -10,22 +9,17 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.websarva.wings.android.newsapp_kotlin.CommonClass
 import com.websarva.wings.android.newsapp_kotlin.R
-import com.websarva.wings.android.newsapp_kotlin.service.ShortUrlService
-import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
-import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
 import com.websarva.wings.android.newsapp_kotlin.model.*
 import com.websarva.wings.android.newsapp_kotlin.repository.ShortUrlRepository
 import com.websarva.wings.android.newsapp_kotlin.repository.TranslateRepository
 import com.websarva.wings.android.newsapp_kotlin.repository.WebSearchRepository
+import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WebSearchViewModel(

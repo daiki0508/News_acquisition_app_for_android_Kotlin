@@ -4,10 +4,9 @@ import com.websarva.wings.android.newsapp_kotlin.repository.ShortUrlRepository
 import com.websarva.wings.android.newsapp_kotlin.repository.TranslateRepository
 import com.websarva.wings.android.newsapp_kotlin.repository.WeatherRepository
 import com.websarva.wings.android.newsapp_kotlin.repository.WebSearchRepository
-import com.websarva.wings.android.newsapp_kotlin.service.ShortUrlService
-import com.websarva.wings.android.newsapp_kotlin.ui.tweet.TweetViewModel
-import com.websarva.wings.android.newsapp_kotlin.ui.weather.WeatherViewModel
-import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.WebSearchViewModel
+import com.websarva.wings.android.newsapp_kotlin.viewmodel.TweetViewModel
+import com.websarva.wings.android.newsapp_kotlin.viewmodel.WeatherViewModel
+import com.websarva.wings.android.newsapp_kotlin.viewmodel.WebSearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 

@@ -9,51 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.newsapp_kotlin.CommonClass
 import com.websarva.wings.android.newsapp_kotlin.R
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityWeatherBinding
-import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
-import com.websarva.wings.android.newsapp_kotlin.service.WeatherService
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.weather.recyclerView.RecyclerViewAdapter
-import okhttp3.CertificatePinner
-import okhttp3.OkHttpClient
+import com.websarva.wings.android.newsapp_kotlin.viewmodel.WeatherViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import javax.net.ssl.SSLPeerUnverifiedException
 
 class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
-    private val viewModel:  WeatherViewModel by viewModel()
-
-    /*private val certificatePinner = CertificatePinner.Builder().apply {
-        add("weather.tsukumijima.net","sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
-    }.build()
-    private val okHttpBuilder = OkHttpClient.Builder().apply {
-        certificatePinner(certificatePinner)
-        hostnameVerifier { s, sslSession ->
-            if (!s.equals(sslSession.peerHost)) {
-                throw SSLPeerUnverifiedException("Invalid Hostname")
-            }
-            return@hostnameVerifier true
-        }
-    }.build()
-    private val retrofit = Retrofit.Builder().apply {
-        client(okHttpBuilder)
-        baseUrl("https://weather.tsukumijima.net/api/")
-        addConverterFactory(GsonConverterFactory.create())
-    }.build()
-    private val service = retrofit.create(WeatherService::class.java)*/
+    private val viewModel: WeatherViewModel by viewModel()
 
     override fun onStart() {
         super.onStart()

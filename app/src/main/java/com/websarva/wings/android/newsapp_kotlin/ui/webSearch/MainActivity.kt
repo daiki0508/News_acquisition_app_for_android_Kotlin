@@ -7,11 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.SimpleAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,23 +16,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.websarva.wings.android.newsapp_kotlin.*
-import com.websarva.wings.android.newsapp_kotlin.service.SearchService
 import com.websarva.wings.android.newsapp_kotlin.databinding.ActivityMainBinding
-import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.ui.tweet.TweetActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.weather.WeatherActivity
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.recyclerView.RecyclerViewAdapter
-import okhttp3.CertificatePinner
-import okhttp3.OkHttpClient
+import com.websarva.wings.android.newsapp_kotlin.viewmodel.WebSearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
-import javax.net.ssl.SSLPeerUnverifiedException
 
 class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding

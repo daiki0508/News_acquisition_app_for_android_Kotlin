@@ -1,4 +1,4 @@
-package com.websarva.wings.android.newsapp_kotlin.ui.tweet
+package com.websarva.wings.android.newsapp_kotlin.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

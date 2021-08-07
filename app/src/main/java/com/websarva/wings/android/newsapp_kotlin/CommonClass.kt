@@ -21,26 +21,6 @@ class CommonClass(outputLang: String?){
         else -> "en"
     }
 
-    /*private val certificatePinner = CertificatePinner.Builder().apply {
-        add("script.google.com", "sha256/glbBfseqsU1YNZ88LPRcV1X3wkwrtKiFvCONZiMdxbc=")
-        add("script.googleusercontent.com", "sha256/wHidWBJ3G2vSPVXbm/csvf1rOza5bctUvEOrsf1+1Qw=")
-    }.build()*/
-    /*private val okHttpClient = OkHttpClient.Builder().apply {
-        //certificatePinner(certificatePinner)
-        hostnameVerifier { s, sslSession ->
-            if (!s.equals(sslSession.peerHost)){
-                throw SSLPeerUnverifiedException("Invalid Hostname")
-            }
-            return@hostnameVerifier true
-        }
-    }.build()
-    private val retrofitTranslate: Retrofit = Retrofit.Builder().apply {
-        client(okHttpClient)
-        baseUrl("https://script.google.com/macros/s/AKfycbzZtvOvf14TaMdRIYzocRcf3mktzGgXvlFvyczo/")
-        addConverterFactory(GsonConverterFactory.create())
-    }.build()
-    val serviceTranslate: TranslateService = retrofitTranslate.create(TranslateService::class.java)*/
-
     fun settingsIntent(activity: Activity){
         activity.let {
             it.startActivity(Intent(it, SettingsActivity::class.java))
