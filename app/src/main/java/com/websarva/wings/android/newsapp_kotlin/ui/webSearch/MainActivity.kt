@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -29,25 +30,6 @@ import java.net.URL
 class MainActivity : AppCompatActivity(), DialogLister {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WebSearchViewModel by viewModel()
-
-    /*private val certificatePinner = CertificatePinner.Builder().apply {
-        add("daiki0508-sakura-vps-server.cf","sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
-    }.build()
-    private val okHttpClient = OkHttpClient.Builder().apply {
-        certificatePinner(certificatePinner)
-        hostnameVerifier { s, sslSession ->
-            if (!s.equals(sslSession.peerHost)){
-                throw SSLPeerUnverifiedException("Invalid Hostname")
-            }
-            return@hostnameVerifier true
-        }
-    }.build()
-    val retrofitSearch: Retrofit = Retrofit.Builder().apply {
-        client(okHttpClient)
-        baseUrl("https://daiki0508-sakura-vps-server.cf/")
-            .addConverterFactory(GsonConverterFactory.create())
-    }.build()
-    val serviceSearch: SearchService = retrofitSearch.create(SearchService::class.java)*/
 
     private lateinit var url: String
 
@@ -82,7 +64,6 @@ class MainActivity : AppCompatActivity(), DialogLister {
             or security.isDebuggable(this)
             or security.detectDebugger()
             or security.isTestKeyBuild()
-            or security.detectThreadCpuTimeNanos()
             ){
             Log.d("test", "Root")
             SecurityDialogFragment().show(supportFragmentManager, "securityFragment")
