@@ -95,7 +95,7 @@ class WebSearchViewModel(
         }
     }
 
-    @UiThread
+    @WorkerThread
     private suspend fun receiveTranslateData(value: List<Value>, code: String, progressBar: ProgressBar){
             if (code != "en") {
                 for (i in 0..9) {
@@ -129,7 +129,7 @@ class WebSearchViewModel(
         }
     }
 
-    @UiThread
+    @WorkerThread
     private suspend fun receiveShortUrl(value: List<Value>, progressBar: ProgressBar){
             for (i in 0..9){
                 Log.d("test", "UrlCalled!!")

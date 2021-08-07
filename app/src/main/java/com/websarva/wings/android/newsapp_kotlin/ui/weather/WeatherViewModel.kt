@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.websarva.wings.android.newsapp_kotlin.CommonClass
 import com.websarva.wings.android.newsapp_kotlin.model.Translate
 import com.websarva.wings.android.newsapp_kotlin.model.Weather
+import com.websarva.wings.android.newsapp_kotlin.repository.TranslateRepository
+import com.websarva.wings.android.newsapp_kotlin.repository.WeatherRepository
 import com.websarva.wings.android.newsapp_kotlin.service.TranslateService
 import com.websarva.wings.android.newsapp_kotlin.ui.webSearch.MainActivity
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("BlockingMethodInNonBlockingContext")
-class WeatherViewModel: ViewModel() {
+class WeatherViewModel(
+    private val weatherRepository: WeatherRepository,
+    private val translateRepository: TranslateRepository
+): ViewModel() {
     private val _weatherList = MutableLiveData<MutableList<MutableMap<String, String?>>>().apply {
         MutableLiveData<MutableList<MutableMap<String, Any>>>()
     }
@@ -31,7 +36,9 @@ class WeatherViewModel: ViewModel() {
     private var weatherList: MutableList<MutableMap<String, String?>>
 
     @UiThread
-    fun receiveWeatherDataGet(get: Call<Weather>, outputLang: String, progressBar: ProgressBar){
+    fun receiveWeatherDataGet(areaCode: String,outputLang: String, progressBar: ProgressBar){
+        val get = weatherRepository.getRawRequestForWeather(areaCode)
+
         viewModelScope.launch {
             weatherList = mutableListOf()
             progressBar.progress = 5
@@ -75,7 +82,7 @@ class WeatherViewModel: ViewModel() {
         }
     }
 
-    @UiThread
+    @WorkerThread
     private suspend fun receiveTranslateData(weather: Weather,outputLang: String, progressBar: ProgressBar){
         val code = CommonClass(outputLang).code
         if (code != "ja"){
@@ -135,7 +142,7 @@ class WeatherViewModel: ViewModel() {
 
                 progressBar.progress += 2
 
-                val get = CommonClass(null).serviceTranslate.getRawRequestForTranslate(params.toMap())
+                val get = translateRepository.getRawRequestForTranslate(params.toMap())
                 val responseBody = translateDataBackGroundRunner(get)
                 responseBody.body()?.let {
                     //Log.d("test", "$i : ${it.text}")
@@ -174,7 +181,7 @@ class WeatherViewModel: ViewModel() {
         }
     }
 
-    @UiThread
+    @WorkerThread
     private fun setWeatherData(it: Weather, progressBar: ProgressBar){
         for (i in 0..2){
             val weather = mutableMapOf<String, String?>()

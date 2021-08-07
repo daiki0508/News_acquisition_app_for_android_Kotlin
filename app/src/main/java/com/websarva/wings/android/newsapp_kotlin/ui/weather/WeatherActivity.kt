@@ -36,7 +36,7 @@ class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
     private val viewModel:  WeatherViewModel by viewModel()
 
-    private val certificatePinner = CertificatePinner.Builder().apply {
+    /*private val certificatePinner = CertificatePinner.Builder().apply {
         add("weather.tsukumijima.net","sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=")
     }.build()
     private val okHttpBuilder = OkHttpClient.Builder().apply {
@@ -53,7 +53,7 @@ class WeatherActivity : AppCompatActivity() {
         baseUrl("https://weather.tsukumijima.net/api/")
         addConverterFactory(GsonConverterFactory.create())
     }.build()
-    private val service = retrofit.create(WeatherService::class.java)
+    private val service = retrofit.create(WeatherService::class.java)*/
 
     override fun onStart() {
         super.onStart()
@@ -131,8 +131,7 @@ class WeatherActivity : AppCompatActivity() {
             val areaCode = cityCode(binding.searchConditions1List.selectedItemId)
             Log.d("test", areaCode)
 
-            val get = service.getRawRequestForWeather(areaCode)
-            viewModel.receiveWeatherDataGet(get, outputLang = getString(R.string.app_name), progressBar)
+            viewModel.receiveWeatherDataGet(areaCode,outputLang = getString(R.string.app_name), progressBar)
         }
     }
 
